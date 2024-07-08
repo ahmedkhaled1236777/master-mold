@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "138078072380",
+    "project_id": "master-mold-fddfd",
+    "storage_bucket": "master-mold-fddfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138078072380:android:26ce0cffc6ce62f0e95d39",
+        "android_client_info": {
+          "package_name": "com.example.easyclinic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV1sJt7iTh2U7ic3HdBRjshglFKkB8r_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138078072380:android:5bfb586307c44367e95d39",
+        "android_client_info": {
+          "package_name": "com.example.mastermold"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV1sJt7iTh2U7ic3HdBRjshglFKkB8r_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

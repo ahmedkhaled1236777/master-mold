@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mastermold/core/color/appcolors.dart';
+import 'package:mastermold/core/commn/loading.dart';
+import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
+import 'package:mastermold/core/commn/toast/toast.dart';
+import 'package:mastermold/core/commn/widgets/custommaterialbutton.dart';
+import 'package:mastermold/core/styles/style.dart';
+import 'package:mastermold/features/auth/presentation/view/widgets/customtextform.dart';
+import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
+class Login extends StatefulWidget {
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  TextEditingController email = TextEditingController();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  TextEditingController password = TextEditingController();
+
+  bool x = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Appcolors.maincolor,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Form(
+              key: formkey,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Image.asset("assets/images/master.jpg"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  customtextform(
+                    controller: email,
+                    prefixicon: Icons.email,
+                    hintText: "البريد الالكتروني",
+                    val: "برجاء ادخال البريد الالكتروني",
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  customtextform(
+                    controller: password,
+                    prefixicon: Icons.lock,
+                    obscureText: x,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          x = !x;
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          x ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.white,
+                        )),
+                    hintText: "كلمة المرور",
+                    val: "برجاء ادخال كلمة المرور",
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  BlocConsumer<AuthCubit, AuthState>(
+                    listener: (context, state) {
+                      if (state is signinfailure) {
+                        showtoast(
+                            message: state.errorr_message,
+                            toaststate: Toaststate.error);
+                      }
+                      if (state is signinsuccess) {
+                        cashhelper.setdata(
+                            key: "name", value: state.loginmodel.user!.name!);
+                        cashhelper.setdata(
+                            key: "token", value: state.loginmodel.user!.token);
+                        cashhelper.setdata(
+                            key: "image",
+                            value: state.loginmodel.user!.profilePhotoPath);
+                        cashhelper.setdata(
+                            key: "email", value: state.loginmodel.user!.email);
+                        cashhelper.setdata(
+                            key: "phone", value: state.loginmodel.user!.phone);
+                        cashhelper.setdata(
+                            key: "is_manager",
+                            value: state.loginmodel.user!.isManager);
+
+                        showtoast(
+                            message: "تم تسجيل الدخول بنجاح",
+                            toaststate: Toaststate.succes);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is signinloading) return loading();
+                      return custommaterialbutton(
+                        button_name: "انشاء حساب",
+                        onPressed: () async {
+                          if (formkey.currentState!.validate()) {
+                            await BlocProvider.of<AuthCubit>(context).sigin(
+                                fcm: OneSignal.User.pushSubscription.id!,
+                                password: password.text,
+                                email: email.text);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "  لا امتلك حساب ؟",
+                        style: Appstyles.textStyle13w,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "انشاء حساب",
+                        style: Appstyles.textStyle13am,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
