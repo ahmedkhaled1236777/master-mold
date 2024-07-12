@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 import 'package:mastermold/core/commn/constants.dart';
+import 'package:mastermold/core/commn/dialogerror.dart';
+import 'package:mastermold/core/commn/loading.dart';
+import 'package:mastermold/core/commn/navigation.dart';
+import 'package:mastermold/core/commn/shimmer/shimmer.dart';
+import 'package:mastermold/core/commn/toast/toast.dart';
 import 'package:mastermold/core/commn/widgets/headerwidget.dart';
+import 'package:mastermold/core/commn/widgets/nodata.dart';
+import 'package:mastermold/features/actions/presentation/view/clientactions.dart';
+import 'package:mastermold/features/clients/presentation/view/widgets/alertsearch.dart';
 import 'package:mastermold/features/clients/presentation/view/widgets/clientitem.dart';
+import 'package:mastermold/features/clients/presentation/view/widgets/editialog.dart';
+import 'package:mastermold/features/clients/presentation/viewmodel/client/client_cubit.dart';
 
 class clients extends StatefulWidget {
   @override
@@ -21,8 +32,19 @@ class _clientsState extends State<clients> {
     "تعديل",
     "حذف",
   ];
+  ScrollController scrollController = ScrollController();
 
-  getdata() async {}
+  getdata() async {
+    BlocProvider.of<ClientCubit>(context).queryparms = null;
+    BlocProvider.of<ClientCubit>(context).getclients(page: 1);
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        await BlocProvider.of<ClientCubit>(context).getamoreclients();
+      }
+    });
+  }
+
   @override
   void initState() {
     getdata();
@@ -39,13 +61,44 @@ class _clientsState extends State<clients> {
               ),
               actions: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      BlocProvider.of<ClientCubit>(context).firstloading =
+                          false;
+                      BlocProvider.of<ClientCubit>(context).queryparms = null;
+                      await BlocProvider.of<ClientCubit>(context)
+                          .getclients(page: 1);
+                    },
                     icon: Icon(
                       Icons.refresh,
                       color: Colors.white,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0)),
+                                title: Container(
+                                  height: 20,
+                                  alignment: Alignment.topLeft,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Appcolors.maincolor,
+                                      )),
+                                ),
+                                contentPadding: EdgeInsets.all(10),
+                                backgroundColor: Colors.white,
+                                insetPadding: EdgeInsets.all(35),
+                                content: Alertsearch());
+                          });
+                    },
                     icon: Icon(
                       Icons.search,
                       color: Colors.white,
@@ -74,31 +127,200 @@ class _clientsState extends State<clients> {
                             ))
                         .toList()),
               ),
-              Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context, i) => InkWell(
-                            onTap: () {},
-                            child: customtableclientitem(
-                                edit: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      editeicon,
-                                      color: Appcolors.dropcolor,
-                                    )),
-                                clientname: "احمد",
-                                phone: "0155525788",
-                                fac: "ميجا",
-                                delet: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      deleteicon,
-                                      color: Colors.red,
-                                    ))),
-                          ),
-                      separatorBuilder: (context, i) => Divider(
-                            color: Colors.grey,
-                          ),
-                      itemCount: 5))
+              Expanded(child: BlocBuilder<ClientCubit, ClientState>(
+                builder: (context, state) {
+                  if (state is getclientsloading) return loadingshimmer();
+                  if (state is getclientsfailure) return SizedBox();
+                  return BlocProvider.of<ClientCubit>(context).data.isEmpty
+                      ? nodata()
+                      : ListView.separated(
+                          controller: scrollController,
+                          itemBuilder: (context, i) => i >=
+                                  BlocProvider.of<ClientCubit>(context)
+                                      .data
+                                      .length
+                              ? loading()
+                              : InkWell(
+                                  onTap: () {
+                                    navigateto(
+                                        navigationscreen: clientaction(
+                                            clientid:
+                                                BlocProvider.of<ClientCubit>(
+                                                        context)
+                                                    .data[i]
+                                                    .id!,
+                                            clientname:
+                                                BlocProvider.of<ClientCubit>(
+                                                        context)
+                                                    .data[i]
+                                                    .name!),
+                                        context: context);
+                                  },
+                                  child: customtableclientitem(
+                                      edit: IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0)),
+                                                    title: Container(
+                                                      height: 20,
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: IconButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons.close,
+                                                            color: Appcolors
+                                                                .maincolor,
+                                                          )),
+                                                    ),
+                                                    contentPadding:
+                                                        EdgeInsets.all(10),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    insetPadding:
+                                                        EdgeInsets.all(35),
+                                                    content: editdialog(
+                                                        name: TextEditingController(
+                                                            text: BlocProvider
+                                                                    .of<ClientCubit>(
+                                                                        context)
+                                                                .data[i]
+                                                                .name!),
+                                                        phone: TextEditingController(
+                                                            text:
+                                                                BlocProvider.of<ClientCubit>(context)
+                                                                    .data[i]
+                                                                    .phone),
+                                                        fac: TextEditingController(
+                                                            text:
+                                                                BlocProvider.of<ClientCubit>(context)
+                                                                    .data[i]
+                                                                    .industry),
+                                                        client_id:
+                                                            BlocProvider.of<ClientCubit>(
+                                                                    context)
+                                                                .data[i]
+                                                                .id!),
+                                                  );
+                                                });
+                                          },
+                                          icon: Icon(editeicon)),
+                                      clientname:
+                                          BlocProvider.of<ClientCubit>(context)
+                                              .data[i]
+                                              .name!,
+                                      phone:
+                                          BlocProvider.of<ClientCubit>(context)
+                                              .data[i]
+                                              .phone!,
+                                      fac: BlocProvider.of<ClientCubit>(context)
+                                          .data[i]
+                                          .industry!,
+                                      delet: IconButton(
+                                          onPressed: () {
+                                            awsomdialogerror(
+                                                context: context,
+                                                mywidget: BlocConsumer<
+                                                    ClientCubit, ClientState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleteclientssuccess) {
+                                                      Navigator.pop(context);
+
+                                                      showtoast(
+                                                          message: state
+                                                              .success_message,
+                                                          toaststate: Toaststate
+                                                              .succes);
+                                                    }
+                                                    if (state
+                                                        is deleteclientsfailure) {
+                                                      Navigator.pop(context);
+
+                                                      showtoast(
+                                                          message: state
+                                                              .error_message,
+                                                          toaststate:
+                                                              Toaststate.error);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleteclientsloading)
+                                                      return deleteloading();
+                                                    return SizedBox(
+                                                      height: 50,
+                                                      width: 100,
+                                                      child: ElevatedButton(
+                                                          style:
+                                                              const ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStatePropertyAll(
+                                                                    Color.fromARGB(
+                                                                        255,
+                                                                        37,
+                                                                        163,
+                                                                        42)),
+                                                          ),
+                                                          onPressed: () async {
+                                                            await BlocProvider
+                                                                    .of<ClientCubit>(
+                                                                        context)
+                                                                .deleteclient(
+                                                                    client_id: BlocProvider.of<ClientCubit>(
+                                                                            context)
+                                                                        .data[i]
+                                                                        .id!);
+                                                          },
+                                                          child: const Text(
+                                                            "تاكيد",
+                                                            style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontFamily:
+                                                                    "cairo",
+                                                                color: Colors
+                                                                    .white),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          )),
+                                                    );
+                                                  },
+                                                ),
+                                                tittle:
+                                                    "هل تريد حذف بيانات العميل ${BlocProvider.of<ClientCubit>(context).data[i].name}");
+                                          },
+                                          icon: Icon(
+                                            deleteicon,
+                                            color: Colors.red,
+                                          ))),
+                                ),
+                          separatorBuilder: (context, i) => Divider(
+                                color: Colors.grey,
+                              ),
+                          itemCount:
+                              BlocProvider.of<ClientCubit>(context).loading ==
+                                      true
+                                  ? BlocProvider.of<ClientCubit>(context)
+                                          .data
+                                          .length +
+                                      1
+                                  : BlocProvider.of<ClientCubit>(context)
+                                      .data
+                                      .length);
+                },
+              ))
             ])));
   }
 }

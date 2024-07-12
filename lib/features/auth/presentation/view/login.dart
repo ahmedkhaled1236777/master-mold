@@ -3,12 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 import 'package:mastermold/core/commn/loading.dart';
+import 'package:mastermold/core/commn/navigation.dart';
 import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
 import 'package:mastermold/core/commn/toast/toast.dart';
 import 'package:mastermold/core/commn/widgets/custommaterialbutton.dart';
 import 'package:mastermold/core/styles/style.dart';
 import 'package:mastermold/features/auth/presentation/view/widgets/customtextform.dart';
 import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
+import 'package:mastermold/features/home/presentation/view/home.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class Login extends StatefulWidget {
@@ -85,7 +87,8 @@ class _LoginState extends State<Login> {
                         cashhelper.setdata(
                             key: "name", value: state.loginmodel.user!.name!);
                         cashhelper.setdata(
-                            key: "token", value: state.loginmodel.user!.token);
+                            key: "token",
+                            value: "Bearer ${state.loginmodel.user!.token}");
                         cashhelper.setdata(
                             key: "image",
                             value: state.loginmodel.user!.profilePhotoPath);
@@ -96,13 +99,15 @@ class _LoginState extends State<Login> {
                         cashhelper.setdata(
                             key: "is_manager",
                             value: state.loginmodel.user!.isManager);
-
+                        navigateto(navigationscreen: home(), context: context);
                         showtoast(
                             message: "تم تسجيل الدخول بنجاح",
                             toaststate: Toaststate.succes);
                       }
                     },
                     builder: (context, state) {
+                      print("ooooooooooooooooooooooooooooo");
+                      print(OneSignal.User.pushSubscription.id);
                       if (state is signinloading) return loading();
                       return custommaterialbutton(
                         button_name: "انشاء حساب",

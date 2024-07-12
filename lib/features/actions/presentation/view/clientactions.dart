@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastermold/core/color/appcolors.dart';
+import 'package:mastermold/core/commn/loading.dart';
+import 'package:mastermold/core/commn/navigation.dart';
+import 'package:mastermold/core/commn/shimmer/shimmer.dart';
+import 'package:mastermold/core/commn/showdialogerror.dart';
 import 'package:mastermold/core/commn/widgets/headerwidget.dart';
+import 'package:mastermold/core/commn/widgets/nodata.dart';
+import 'package:mastermold/features/actions/presentation/view/addaction.dart';
+import 'package:mastermold/features/actions/presentation/view/widgets/alertcontent.dart';
 import 'package:mastermold/features/actions/presentation/view/widgets/clientaction.dart';
+import 'package:mastermold/features/actions/presentation/viewmodel/cubit/clientactions_cubit.dart';
 
 class clientaction extends StatefulWidget {
+  ScrollController scrollController = ScrollController();
+  final int clientid;
+  final String clientname;
+
+  clientaction({super.key, required this.clientid, required this.clientname});
   @override
   State<clientaction> createState() => _clientactionState();
 }
@@ -22,7 +36,20 @@ class _clientactionState extends State<clientaction> {
     "تحديد",
   ];
 
-  getdata() async {}
+  getdata() async {
+    BlocProvider.of<ClientactionsCubit>(context).firstloading = false;
+    BlocProvider.of<ClientactionsCubit>(context).queryparms = null;
+    BlocProvider.of<ClientactionsCubit>(context)
+        .getactions(client_id: widget.clientid);
+    widget.scrollController.addListener(() async {
+      if (widget.scrollController.position.pixels ==
+          widget.scrollController.position.maxScrollExtent) {
+        await BlocProvider.of<ClientactionsCubit>(context)
+            .getamoreclients(client_id: widget.clientid);
+      }
+    });
+  }
+
   @override
   void initState() {
     getdata();
@@ -39,13 +66,46 @@ class _clientactionState extends State<clientaction> {
               ),
               actions: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0)),
+                                title: Container(
+                                  height: 20,
+                                  alignment: Alignment.topLeft,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Appcolors.maincolor,
+                                      )),
+                                ),
+                                contentPadding: EdgeInsets.all(10),
+                                backgroundColor: Colors.white,
+                                insetPadding: EdgeInsets.all(35),
+                                content: Alertcontent(
+                                  clientid: widget.clientid,
+                                ));
+                          });
+                    },
                     icon: const Icon(
                       Icons.search,
                       color: Colors.white,
                     )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateto(
+                          navigationscreen: Addaction(
+                            client_id: widget.clientid,
+                          ),
+                          context: context);
+                    },
                     icon: const Icon(
                       Icons.add,
                       color: Colors.white,
@@ -53,8 +113,8 @@ class _clientactionState extends State<clientaction> {
               ],
               backgroundColor: Appcolors.maincolor,
               centerTitle: true,
-              title: const Text(
-                "م.احمد علام",
+              title: Text(
+                widget.clientname,
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: "cairo",
@@ -75,20 +135,89 @@ class _clientactionState extends State<clientaction> {
                         .toList()),
               ),
               Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context, i) => InkWell(
-                            onTap: () {},
-                            child: customtableclientactionitem(
-                              payment: "20000",
-                              date: "22/5/2024",
-                              check: Checkbox(value: val, onChanged: (val) {}),
-                              bayan: "اصلاح اسطبة شاسيه",
+                  child: BlocConsumer<ClientactionsCubit, ClientactionsState>(
+                listener: (context, state) {
+                  if (state is Clientactionsfailurre)
+                    showdialogerror(
+                        error: state.errormessage, context: context);
+                },
+                builder: (context, state) {
+                  if (state is Clientactionsloading) return loadingshimmer();
+                  if (state is Clientactionsfailurre)
+                    return SizedBox();
+                  else {
+                    if (BlocProvider.of<ClientactionsCubit>(context)
+                        .data
+                        .isEmpty) return nodata();
+                    return ListView.separated(
+                      controller: widget.scrollController,
+                        itemBuilder: (context, i) => i >=
+                                BlocProvider.of<ClientactionsCubit>(context)
+                                    .data
+                                    .length
+                            ? loading()
+                            : InkWell(
+                                onTap: () {},
+                                child: customtableclientactionitem(
+                                  payment: BlocProvider.of<ClientactionsCubit>(
+                                                  context)
+                                              .data[i]
+                                              .type ==
+                                          "maintenance"
+                                      ? ""
+                                      : BlocProvider.of<ClientactionsCubit>(
+                                              context)
+                                          .data[i]
+                                          .price!
+                                          .toString(),
+                                  maintenance:
+                                      BlocProvider.of<ClientactionsCubit>(
+                                                      context)
+                                                  .data[i]
+                                                  .type ==
+                                              "payment"
+                                          ? ""
+                                          : BlocProvider.of<ClientactionsCubit>(
+                                                  context)
+                                              .data[i]
+                                              .price!
+                                              .toString(),
+                                  date: BlocProvider.of<ClientactionsCubit>(
+                                          context)
+                                      .data[i]
+                                      .date!,
+                                  check: Checkbox(
+                                      value:
+                                          BlocProvider.of<ClientactionsCubit>(
+                                                  context)
+                                              .checks[i],
+                                      onChanged: (val) {
+                                        BlocProvider.of<ClientactionsCubit>(
+                                                context)
+                                            .changecheckbox(val!, i);
+                                      }),
+                                  bayan: BlocProvider.of<ClientactionsCubit>(
+                                          context)
+                                      .data[i]
+                                      .description!,
+                                ),
+                              ),
+                        separatorBuilder: (context, i) => const Divider(
+                              color: Colors.grey,
                             ),
-                          ),
-                      separatorBuilder: (context, i) => const Divider(
-                            color: Colors.grey,
-                          ),
-                      itemCount: 5)),
+                        itemCount: BlocProvider.of<ClientactionsCubit>(context)
+                                    .loading ==
+                                true
+                            ? BlocProvider.of<ClientactionsCubit>(context)
+                                    .data
+                                    .length +
+                                1
+                            : BlocProvider.of<ClientactionsCubit>(context)
+                                .data
+                                .length);
+                  }
+                },
+              )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -109,27 +238,31 @@ class _clientactionState extends State<clientaction> {
                       )),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 7),
-                width: double.infinity,
-                color: Appcolors.dropcolor,
-                child: const Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "اجمالي ما له : 12365552",
-                        style:
-                            TextStyle(fontFamily: "cairo", color: Colors.white),
+              BlocBuilder<ClientactionsCubit, ClientactionsState>(
+                builder: (context, state) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 7),
+                    width: double.infinity,
+                    color: Appcolors.dropcolor,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "اجمالي ما له : ${BlocProvider.of<ClientactionsCubit>(context).maintenance > BlocProvider.of<ClientactionsCubit>(context).payment ? 0 : BlocProvider.of<ClientactionsCubit>(context).payment - BlocProvider.of<ClientactionsCubit>(context).maintenance}",
+                            style: TextStyle(
+                                fontFamily: "cairo", color: Colors.white),
+                          ),
+                          Text(
+                            "اجمالي ما عليه : ${BlocProvider.of<ClientactionsCubit>(context).maintenance < BlocProvider.of<ClientactionsCubit>(context).payment ? 0 : BlocProvider.of<ClientactionsCubit>(context).maintenance - BlocProvider.of<ClientactionsCubit>(context).payment}",
+                            style: TextStyle(
+                                fontFamily: "cairo", color: Colors.white),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "اجمالي ما عليه : 0",
-                        style:
-                            TextStyle(fontFamily: "cairo", color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               )
             ])));
   }

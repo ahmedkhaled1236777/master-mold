@@ -60,11 +60,11 @@ class customtableclientitem extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: delet,
+            child: edit,
           ),
           Expanded(
             flex: 2,
-            child: edit,
+            child: delet,
           ),
         ],
       ),

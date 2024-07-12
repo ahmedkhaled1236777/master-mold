@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 import 'package:mastermold/core/commn/navigation.dart';
 import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
-import 'package:mastermold/features/actions/presentation/view/clientactions.dart';
-import 'package:mastermold/features/auth/presentation/view/login.dart';
-import 'package:mastermold/features/clients/presentation/view/addclient.dart';
+  import 'package:mastermold/features/clients/presentation/view/addclient.dart';
 import 'package:mastermold/features/clients/presentation/view/clients.dart';
 import 'package:mastermold/features/home/presentation/view/widgets/gridelement.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -26,7 +24,7 @@ class _homeState extends State<home> {
     {
       "name": "الموظفين",
       "image": "assets/images/service.png",
-      "page": clientaction()
+      "page": clients()
     },
   ];
   @override
@@ -86,10 +84,7 @@ class _homeState extends State<home> {
                                       backgroundColor: Colors.grey[100],
                                       radius: 20.0,
                                       backgroundImage: AssetImage(
-                                        cashhelper.getdata(key: "email") ==
-                                                "ahmedaaallam123@gmail.com"
-                                            ? 'assets/images/master.jpg'
-                                            : 'assets/images/master.jpg',
+                                       'assets/images/master.jpg',
                                       ),
                                     ),
                                   ),
