@@ -22,15 +22,15 @@ awsomdialogerror({
             alignment: Alignment.center,
             children: [
               AlertDialog(
-                contentPadding: EdgeInsets.all(0),
+                insetPadding: EdgeInsets.only(left: 13, right: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 content: SizedBox(
-                  width: MediaQuery.sizeOf(context).width > 950
+                  width: MediaQuery.sizeOf(context).width > 600
                       ? MediaQuery.sizeOf(context).width * 0.25
-                      : MediaQuery.sizeOf(context).width > 650
-                          ? MediaQuery.sizeOf(context).width * 0.55
-                          : MediaQuery.sizeOf(context).width,
+                      : MediaQuery.sizeOf(context).width,
                   height: 190,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +42,9 @@ awsomdialogerror({
                       Text(
                         "! تنبيــــه",
                         style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontFamily: "cairo",
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -50,7 +52,10 @@ awsomdialogerror({
                       ),
                       Text(
                         tittle,
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: "cairo",
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
@@ -59,22 +64,28 @@ awsomdialogerror({
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                                style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      Color(0xffc21a15)),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  "الغاء",
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                )),
+                            SizedBox(
+                              height: 50,
+                              width: 100,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xffc21a15)),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "الغاء",
+                                    style: TextStyle(
+                                        fontFamily: "cairo",
+                                        fontSize: 12,
+                                        color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  )),
+                            ),
                             const SizedBox(
                               width: 15,
                             ),
@@ -87,13 +98,13 @@ awsomdialogerror({
                 ),
               ),
               Positioned(
+                top: (MediaQuery.sizeOf(context).height - 125) / 2 - 70,
                 child: CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.white,
-                  child:
-                      Lottie.asset(width: 78, height: 78, "images/sasa.json"),
+                  child: Lottie.asset(
+                      width: 78, height: 78, "assets/images/sasa.json"),
                 ),
-                top: (MediaQuery.sizeOf(context).height - 125) / 2 - 70,
               )
             ],
           ),

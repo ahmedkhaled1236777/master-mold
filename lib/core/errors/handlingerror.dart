@@ -13,7 +13,7 @@ class requestfailure extends failure {
   requestfailure({required super.error_message}) {
     if (super.error_message == "تم تسجيل الخروج من التطبيق") {
       cashhelper.cleardata();
-      Get.off(Login(),
+      Get.offAll(Login(),
           transition: Transition.rightToLeft,
           duration: Duration(seconds: 1),
           curve: Curves.easeInOut);

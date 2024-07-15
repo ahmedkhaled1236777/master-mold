@@ -10,4 +10,9 @@ abstract class Authrepo {
       required String email});
   Future<Either<failure, Loginmodel>> signin(
       {required String email, required String password, required String fcm});
+  Future<Either<failure, String>> logout();
+  Future<Either<failure, String>> changepass(
+      {required String oldpass,
+      required String newpass,
+      required String cnewpass});
 }

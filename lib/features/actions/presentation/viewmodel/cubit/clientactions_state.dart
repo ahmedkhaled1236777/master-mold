@@ -4,6 +4,20 @@ abstract class ClientactionsState {}
 
 class ClientactionsInitial extends ClientactionsState {}
 
+class editactionloading extends ClientactionsState {}
+
+class editactionsuccess extends ClientactionsState {
+  final String successmessage;
+
+  editactionsuccess({required this.successmessage});
+}
+
+class editactionfailure extends ClientactionsState {
+  final String errormessage;
+
+  editactionfailure({required this.errormessage});
+}
+
 class changetypestate extends ClientactionsState {}
 
 class addactionloading extends ClientactionsState {}

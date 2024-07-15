@@ -8,4 +8,8 @@ abstract class urls {
   static const deleteclient = "delete_client";
   static const deleteaction = "delete_action";
   static const addaction = "add_action";
+  static const logout = "logout";
+  static const employers = "employers";
+  static const is_active = "is_active";
+  static const change_password = "change_the_pass";
 }

@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 
-class customtableclientactionitem extends StatelessWidget {
-  final String date;
-  final String bayan;
-  String? maintenance;
-  String? payment;
+class customtableemployeeitem extends StatelessWidget {
+  final String employeename;
+  final String phone;
+  final String status;
 
-  Widget check;
+  Widget edit;
   TextStyle textStyle =
       TextStyle(fontSize: 12, fontFamily: "cairo", color: Appcolors.maincolor);
 
-  customtableclientactionitem(
-      {super.key,
-      required this.date,
-      required this.bayan,
-      required this.check,
-      this.maintenance,
-      this.payment});
-
+  customtableemployeeitem({
+    super.key,
+    required this.employeename,
+    required this.phone,
+    required this.status,
+    required this.edit,
+  });
   // ignore: non_constant_identifier_names
 
   @override
@@ -31,7 +29,7 @@ class customtableclientactionitem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              date,
+              employeename,
               style: textStyle,
               textAlign: TextAlign.center,
             ),
@@ -42,7 +40,7 @@ class customtableclientactionitem extends StatelessWidget {
           Expanded(
               flex: 3,
               child: Text(
-                bayan,
+                phone,
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
@@ -52,17 +50,7 @@ class customtableclientactionitem extends StatelessWidget {
           Expanded(
               flex: 3,
               child: Text(
-                maintenance == null ? "" : maintenance!,
-                style: textStyle,
-                textAlign: TextAlign.center,
-              )),
-          const SizedBox(
-            width: 3,
-          ),
-          Expanded(
-              flex: 3,
-              child: Text(
-                payment == null ? "" : payment!,
+                status,
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
@@ -71,7 +59,7 @@ class customtableclientactionitem extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: check,
+            child: edit,
           ),
         ],
       ),

@@ -11,13 +11,28 @@ import 'package:mastermold/features/actions/data/model/actionmodelrequest.dart';
 import 'package:mastermold/features/actions/presentation/view/widgets/radios.dart';
 import 'package:mastermold/features/actions/presentation/viewmodel/cubit/clientactions_cubit.dart';
 
-class Addaction extends StatelessWidget {
-  TextEditingController bayan = TextEditingController();
-  TextEditingController money = TextEditingController();
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+class Addaction extends StatefulWidget {
   final int client_id;
 
   Addaction({super.key, required this.client_id});
+
+  @override
+  State<Addaction> createState() => _AddactionState();
+}
+
+class _AddactionState extends State<Addaction> {
+  TextEditingController bayan = TextEditingController();
+
+  TextEditingController money = TextEditingController();
+
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    BlocProvider.of<DateCubit>(context).cleardates();
+    BlocProvider.of<ClientactionsCubit>(context)
+        .changetype(value: "maintenance");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -68,6 +83,9 @@ class Addaction extends StatelessWidget {
                       );
                     },
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   custommytextform(
                     controller: bayan,
                     maxlines: 3,
@@ -99,7 +117,7 @@ class Addaction extends StatelessWidget {
                         bayan.clear;
                         money.clear();
                         await BlocProvider.of<ClientactionsCubit>(context)
-                            .getactions(client_id: client_id);
+                            .getactions(client_id: widget.client_id);
                         showtoast(
                             message: state.successmessage,
                             toaststate: Toaststate.succes);
@@ -125,7 +143,7 @@ class Addaction extends StatelessWidget {
                                             BlocProvider.of<DateCubit>(context)
                                                 .date1,
                                         desc: bayan.text,
-                                        clientid: client_id,
+                                        clientid: widget.client_id,
                                         price:
                                             double.parse(money.text).round()));
                           }

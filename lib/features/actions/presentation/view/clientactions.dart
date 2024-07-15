@@ -1,16 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastermold/core/color/appcolors.dart';
+import 'package:mastermold/core/commn/date/date_cubit.dart';
 import 'package:mastermold/core/commn/loading.dart';
 import 'package:mastermold/core/commn/navigation.dart';
 import 'package:mastermold/core/commn/shimmer/shimmer.dart';
 import 'package:mastermold/core/commn/showdialogerror.dart';
 import 'package:mastermold/core/commn/widgets/headerwidget.dart';
 import 'package:mastermold/core/commn/widgets/nodata.dart';
+import 'package:mastermold/core/commn/widgets/pdf.dart';
 import 'package:mastermold/features/actions/presentation/view/addaction.dart';
 import 'package:mastermold/features/actions/presentation/view/widgets/alertcontent.dart';
 import 'package:mastermold/features/actions/presentation/view/widgets/clientaction.dart';
+import 'package:mastermold/features/actions/presentation/view/widgets/editdelete.dart';
 import 'package:mastermold/features/actions/presentation/viewmodel/cubit/clientactions_cubit.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../data/model/actionmodel/datum.dart';
 
 class clientaction extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -150,14 +159,72 @@ class _clientactionState extends State<clientaction> {
                         .data
                         .isEmpty) return nodata();
                     return ListView.separated(
-                      controller: widget.scrollController,
+                        controller: widget.scrollController,
                         itemBuilder: (context, i) => i >=
                                 BlocProvider.of<ClientactionsCubit>(context)
                                     .data
                                     .length
                             ? loading()
                             : InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                      .editordelete = "تعديل";
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                          .type =
+                                      BlocProvider.of<ClientactionsCubit>(
+                                              context)
+                                          .data[i]
+                                          .type!;
+                                  BlocProvider.of<DateCubit>(context).date1 =
+                                      BlocProvider.of<ClientactionsCubit>(
+                                              context)
+                                          .data[i]
+                                          .date!;
+
+                                  showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0)),
+                                            title: Container(
+                                              height: 20,
+                                              alignment: Alignment.topLeft,
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.close,
+                                                    color: Appcolors.maincolor,
+                                                  )),
+                                            ),
+                                            contentPadding: EdgeInsets.all(10),
+                                            backgroundColor: Colors.white,
+                                            insetPadding: EdgeInsets.all(35),
+                                            content: Editdelete(
+                                                bayan: TextEditingController(
+                                                    text: BlocProvider.of<
+                                                                ClientactionsCubit>(
+                                                            context)
+                                                        .data[i]
+                                                        .description),
+                                                price: TextEditingController(
+                                                    text: BlocProvider.of<
+                                                                ClientactionsCubit>(
+                                                            context)
+                                                        .data[i]
+                                                        .price!
+                                                        .toString()),
+                                                clientid: widget.clientid,
+                                                actionid: BlocProvider.of<
+                                                        ClientactionsCubit>(context)
+                                                    .data[i]
+                                                    .id!));
+                                      });
+                                },
                                 child: customtableclientactionitem(
                                   payment: BlocProvider.of<ClientactionsCubit>(
                                                   context)
@@ -222,7 +289,49 @@ class _clientactionState extends State<clientaction> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        int maintenance = 0;
+                        int payment = 0;
+                        List<Datum> data = [];
+                        for (int i = 0;
+                            i <
+                                BlocProvider.of<ClientactionsCubit>(context)
+                                    .data
+                                    .length;
+                            i++) {
+                          if (BlocProvider.of<ClientactionsCubit>(context)
+                                  .checks[i] ==
+                              true) {
+                            data.add(
+                                BlocProvider.of<ClientactionsCubit>(context)
+                                    .data[i]);
+                            if (BlocProvider.of<ClientactionsCubit>(context)
+                                    .data[i]
+                                    .type ==
+                                "maintenance") {
+                              maintenance = maintenance +
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                      .data[i]
+                                      .price!;
+                            } else {
+                              payment = payment +
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                      .data[i]
+                                      .price!;
+                            }
+                          }
+                        }
+                        final img =
+                            await rootBundle.load('assets/images/logo.png');
+                        final imageBytes = img.buffer.asUint8List();
+                        File file = await pdfservice.generatepdf(
+                            data,
+                            widget.clientname,
+                            imageBytes,
+                            maintenance,
+                            payment);
+                        pdfservice.openfile(file);
+                      },
                       icon: const Icon(
                         Icons.picture_as_pdf,
                         color: Appcolors.dropcolor,
@@ -231,7 +340,49 @@ class _clientactionState extends State<clientaction> {
                     width: 5,
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        int maintenance = 0;
+                        int payment = 0;
+                        List<Datum> data = [];
+                        for (int i = 0;
+                            i <
+                                BlocProvider.of<ClientactionsCubit>(context)
+                                    .data
+                                    .length;
+                            i++) {
+                          if (BlocProvider.of<ClientactionsCubit>(context)
+                                  .checks[i] ==
+                              true) {
+                            data.add(
+                                BlocProvider.of<ClientactionsCubit>(context)
+                                    .data[i]);
+                            if (BlocProvider.of<ClientactionsCubit>(context)
+                                    .data[i]
+                                    .type ==
+                                "maintenance") {
+                              maintenance = maintenance +
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                      .data[i]
+                                      .price!;
+                            } else {
+                              payment = payment +
+                                  BlocProvider.of<ClientactionsCubit>(context)
+                                      .data[i]
+                                      .price!;
+                            }
+                          }
+                        }
+                        final img =
+                            await rootBundle.load('assets/images/logo.png');
+                        final imageBytes = img.buffer.asUint8List();
+                        File file = await pdfservice.generatepdf(
+                            data,
+                            widget.clientname,
+                            imageBytes,
+                            maintenance,
+                            payment);
+                        await Share.shareXFiles([XFile(file.path)]);
+                      },
                       icon: const Icon(
                         Icons.share,
                         color: Appcolors.dropcolor,

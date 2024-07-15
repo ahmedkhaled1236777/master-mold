@@ -8,6 +8,8 @@ import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
 import 'package:mastermold/core/commn/toast/toast.dart';
 import 'package:mastermold/core/commn/widgets/custommaterialbutton.dart';
 import 'package:mastermold/core/styles/style.dart';
+import 'package:mastermold/features/auth/presentation/view/profile.dart';
+import 'package:mastermold/features/auth/presentation/view/signup.dart';
 import 'package:mastermold/features/auth/presentation/view/widgets/customtextform.dart';
 import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
 import 'package:mastermold/features/home/presentation/view/home.dart';
@@ -84,30 +86,39 @@ class _LoginState extends State<Login> {
                             toaststate: Toaststate.error);
                       }
                       if (state is signinsuccess) {
-                        cashhelper.setdata(
-                            key: "name", value: state.loginmodel.user!.name!);
-                        cashhelper.setdata(
-                            key: "token",
-                            value: "Bearer ${state.loginmodel.user!.token}");
-                        cashhelper.setdata(
-                            key: "image",
-                            value: state.loginmodel.user!.profilePhotoPath);
-                        cashhelper.setdata(
-                            key: "email", value: state.loginmodel.user!.email);
-                        cashhelper.setdata(
-                            key: "phone", value: state.loginmodel.user!.phone);
-                        cashhelper.setdata(
-                            key: "is_manager",
-                            value: state.loginmodel.user!.isManager);
-                        navigateto(navigationscreen: home(), context: context);
-                        showtoast(
-                            message: "تم تسجيل الدخول بنجاح",
-                            toaststate: Toaststate.succes);
+                        if (state.loginmodel.user!.isActive != "yes") {
+                          showtoast(
+                              message: "البريد غير مفعل",
+                              toaststate: Toaststate.error);
+                        } else {
+                          cashhelper.setdata(
+                              key: "name", value: state.loginmodel.user!.name!);
+                          cashhelper.setdata(
+                              key: "token",
+                              value: "Bearer ${state.loginmodel.user!.token}");
+                          if (state.loginmodel.user!.profilePhotoPath != null)
+                            cashhelper.setdata(
+                                key: "image",
+                                value:
+                                    "https://masool.net/master-mold/public/uploads/${state.loginmodel.user!.profilePhotoPath}");
+                          cashhelper.setdata(
+                              key: "email",
+                              value: state.loginmodel.user!.email);
+                          cashhelper.setdata(
+                              key: "phone",
+                              value: state.loginmodel.user!.phone);
+                          cashhelper.setdata(
+                              key: "is_manager",
+                              value: state.loginmodel.user!.isManager);
+                          navigateto(
+                              navigationscreen: home(), context: context);
+                          showtoast(
+                              message: "تم تسجيل الدخول بنجاح",
+                              toaststate: Toaststate.succes);
+                        }
                       }
                     },
                     builder: (context, state) {
-                      print("ooooooooooooooooooooooooooooo");
-                      print(OneSignal.User.pushSubscription.id);
                       if (state is signinloading) return loading();
                       return custommaterialbutton(
                         button_name: "انشاء حساب",
@@ -135,9 +146,15 @@ class _LoginState extends State<Login> {
                       const SizedBox(
                         width: 5,
                       ),
-                      Text(
-                        "انشاء حساب",
-                        style: Appstyles.textStyle13am,
+                      InkWell(
+                        onTap: () {
+                          navigateto(
+                              navigationscreen: Signup(), context: context);
+                        },
+                        child: Text(
+                          "انشاء حساب",
+                          style: Appstyles.textStyle13am,
+                        ),
                       ),
                     ],
                   )

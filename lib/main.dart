@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,15 +13,18 @@ import 'package:mastermold/features/auth/presentation/view/login.dart';
 import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
 import 'package:mastermold/features/clients/data/repo/clientrepoimp.dart';
 import 'package:mastermold/features/clients/presentation/viewmodel/client/client_cubit.dart';
+import 'package:mastermold/features/employees/data/model/repos/emoloyeesrepoimp.dart';
+import 'package:mastermold/features/employees/presentation/viewmodel/employee/employee_cubit.dart';
 import 'package:mastermold/features/home/presentation/view/home.dart';
+import 'package:mastermold/firebase_options.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cashhelper.initcashhelper();
-  /* await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );*/
+  );
   await Apiservice.initdio();
   OneSignal.initialize("11bed588-849f-432c-9b87-8d70ea9b6d9e");
   runApp(const MyApp());
@@ -45,6 +49,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => DateCubit(),
+          ),
+          BlocProvider(
+            create: (context) => EmployeeCubit(Emoloyeesrepoimp()),
           ),
         ],
         child: GetMaterialApp(

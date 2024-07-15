@@ -80,18 +80,19 @@ class _AlertcontentcontentState extends State<Alertcontent> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             custommaterialbutton(
                               button_name: "بحث",
                               onPressed: () {
-                                if (year != null && month != null)
+                                if (year != null && month != null) {
                                   BlocProvider.of<ClientactionsCubit>(context)
                                       .queryparms = {
                                     "month": this.month,
                                     "year": this.year
                                   };
+                                }
                                 Navigator.pop(context);
                                 BlocProvider.of<ClientactionsCubit>(context)
                                     .firstloading = false;

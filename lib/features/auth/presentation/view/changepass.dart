@@ -5,26 +5,23 @@ import 'package:mastermold/core/commn/loading.dart';
 import 'package:mastermold/core/commn/navigation.dart';
 import 'package:mastermold/core/commn/toast/toast.dart';
 import 'package:mastermold/core/commn/widgets/custommaterialbutton.dart';
-import 'package:mastermold/core/styles/style.dart';
-import 'package:mastermold/features/auth/presentation/view/login.dart';
+import 'package:mastermold/features/auth/presentation/view/profile.dart';
 import 'package:mastermold/features/auth/presentation/view/widgets/customtextform.dart';
 import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
 
-class Signup extends StatefulWidget {
+class changepass extends StatefulWidget {
   @override
-  State<Signup> createState() => _SignupState();
+  State<changepass> createState() => _changepassState();
 }
 
-class _SignupState extends State<Signup> {
+class _changepassState extends State<changepass> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  TextEditingController name = TextEditingController();
+  TextEditingController oldpass = TextEditingController();
 
-  TextEditingController phone = TextEditingController();
+  TextEditingController newpass = TextEditingController();
 
-  TextEditingController email = TextEditingController();
-
-  TextEditingController password = TextEditingController();
+  TextEditingController cnewpass = TextEditingController();
 
   bool x = true;
 
@@ -49,34 +46,7 @@ class _SignupState extends State<Signup> {
                     height: 10,
                   ),
                   customtextform(
-                    controller: name,
-                    prefixicon: Icons.person,
-                    hintText: "الاسم",
-                    val: "برجاء ادخال الاسم",
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customtextform(
-                    controller: phone,
-                    prefixicon: Icons.phone,
-                    hintText: "رقم الهاتف",
-                    val: "برجاء ادخال رقم الهاتف",
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customtextform(
-                    controller: email,
-                    prefixicon: Icons.email,
-                    hintText: "البريد الالكتروني",
-                    val: "برجاء ادخال البريد الالكتروني",
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  customtextform(
-                    controller: password,
+                    controller: oldpass,
                     prefixicon: Icons.lock,
                     obscureText: x,
                     suffixIcon: IconButton(
@@ -88,42 +58,79 @@ class _SignupState extends State<Signup> {
                           x ? Icons.visibility_off : Icons.visibility,
                           color: Colors.white,
                         )),
-                    hintText: "كلمة المرور",
-                    val: "برجاء ادخال كلمة المرور",
+                    hintText: "كلمة المرور القديمه",
+                    val: "برجاء ادخال كلمة المرور القديمه",
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  customtextform(
+                    controller: newpass,
+                    prefixicon: Icons.lock,
+                    obscureText: x,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          x = !x;
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          x ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.white,
+                        )),
+                    hintText: "كلمة المرور الجديده",
+                    val: "برجاء ادخال كلمة المرور الجديده",
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  customtextform(
+                    controller: cnewpass,
+                    prefixicon: Icons.lock,
+                    obscureText: x,
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          x = !x;
+                          setState(() {});
+                        },
+                        icon: Icon(
+                          x ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.white,
+                        )),
+                    hintText: "تاكيد كلمة المرور الجديده",
+                    val: "برجاء ادخال تاكيد كلمة المرور الجديده",
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   const SizedBox(
                     height: 40,
                   ),
                   BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
-                      if (state is signupfailure) {
+                      if (state is changepassfailure) {
                         showtoast(
-                            message: state.errorr_message,
+                            message: state.errormessage,
                             toaststate: Toaststate.error);
                       }
-                      if (state is signupsuccess) {
-                        name.clear();
-                        phone.clear();
-                        email.clear();
-                        password.clear();
-                        navigateandfinish(
-                            navigationscreen: Login(), context: context);
+                      if (state is changepasssuccess) {
+                        Navigator.pop(context);
                         showtoast(
                             message: state.successmessage,
                             toaststate: Toaststate.succes);
                       }
                     },
                     builder: (context, state) {
-                      if (state is signuploading) return loading();
+                      if (state is changepassloading) return loading();
                       return custommaterialbutton(
-                        button_name: "انشاء حساب",
+                        button_name: "تغيير كلمة المرور",
                         onPressed: () async {
                           if (formkey.currentState!.validate()) {
-                            await BlocProvider.of<AuthCubit>(context).sigup(
-                                name: name.text,
-                                password: password.text,
-                                phone: phone.text,
-                                email: email.text);
+                            await BlocProvider.of<AuthCubit>(context)
+                                .changepass(
+                              oldpass: oldpass.text,
+                              newpass: newpass.text,
+                              cnewpass: cnewpass.text,
+                            );
                           }
                         },
                       );
@@ -132,28 +139,6 @@ class _SignupState extends State<Signup> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        " امتلك حساب ؟",
-                        style: Appstyles.textStyle13w,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          navigateandfinish(
-                              navigationscreen: Login(), context: context);
-                        },
-                        child: Text(
-                          "تسجيل دخول",
-                          style: Appstyles.textStyle13am,
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),

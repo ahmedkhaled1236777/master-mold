@@ -46,7 +46,8 @@ showdialogerror({required String error, required BuildContext context}) {
                         ),
                         Text(
                           error,
-                          style: const TextStyle(fontSize: 12),
+                          style: const TextStyle(
+                              fontSize: 12, fontFamily: "cairo"),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(
@@ -85,8 +86,8 @@ showdialogerror({required String error, required BuildContext context}) {
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
-                    child:
-                        Lottie.asset(width: 78, height: 78, "images/sasa.json"),
+                    child: Lottie.asset(
+                        width: 78, height: 78, "assets/images/sasa.json"),
                   ),
                   top: (MediaQuery.sizeOf(context).height - 125) / 2 - 70,
                 )

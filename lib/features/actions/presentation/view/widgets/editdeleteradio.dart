@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 import 'package:mastermold/features/actions/presentation/viewmodel/cubit/clientactions_cubit.dart';
 
-class radios extends StatelessWidget {
+class Editdeleteradio extends StatelessWidget {
   final String firstradio;
   final String secondradio;
   final String firstradiotitle;
   final String secondradiotitle;
-  radios(
+  Editdeleteradio(
       {super.key,
       required this.firstradio,
       required this.secondradio,
@@ -28,9 +27,9 @@ class radios extends StatelessWidget {
           Radio(
               activeColor: Appcolors.primarycolor,
               value: firstradio,
-              groupValue: actionbloc.type,
+              groupValue: actionbloc.editordelete,
               onChanged: (val) {
-                actionbloc.changetype(value: val!);
+                actionbloc.changeedittype(value: val!);
               }),
           Text(
             firstradiotitle,
@@ -45,9 +44,9 @@ class radios extends StatelessWidget {
           Radio(
               activeColor: Appcolors.primarycolor,
               value: secondradio,
-              groupValue: actionbloc.type,
+              groupValue: actionbloc.editordelete,
               onChanged: (val) {
-                actionbloc.changetype(value: val!);
+                actionbloc.changeedittype(value: val!);
               }),
           Text(
             secondradiotitle,

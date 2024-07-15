@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
 import 'package:mastermold/core/errors/failure.dart';
 import 'package:mastermold/core/errors/handlingerror.dart';
 import 'package:mastermold/core/services/apiservice.dart';
@@ -55,6 +56,59 @@ class Authrepoimp extends Authrepo {
           });
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(Loginmodel.fromJson(response.data));
+      } else {
+        if (response.data["data"] != null) {
+          return left(requestfailure(error_message: response.data["data"][0]));
+        } else
+          return left(requestfailure(error_message: response.data["error"]));
+      }
+    } catch (e) {
+      if (e is DioException)
+        return left(requestfailure.fromdioexception(e));
+      else
+        return left(requestfailure(error_message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<failure, String>> logout() async {
+    try {
+      Response response = await Postdata.postdata(
+          path: urls.logout, token: cashhelper.getdata(key: "token"));
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        return right("تم تسجيل الخروج");
+      } else {
+        if (response.data["data"] != null) {
+          return left(requestfailure(error_message: response.data["data"][0]));
+        } else
+          return left(requestfailure(error_message: response.data["error"]));
+      }
+    } catch (e) {
+      if (e is DioException)
+        return left(requestfailure.fromdioexception(e));
+      else
+        return left(requestfailure(error_message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<failure, String>> changepass(
+      {required String oldpass,
+      required String newpass,
+      required String cnewpass}) async {
+    try {
+      Response response = await Postdata.postdata(
+          path: urls.change_password,
+          data: {
+            "old_password": oldpass,
+            "new_password": newpass,
+            "new_password_confirmation": cnewpass
+          },
+          token: cashhelper.getdata(
+            key: "token",
+          ));
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        return right("تم تغيير كلمة المرور بنجاح");
       } else {
         if (response.data["data"] != null) {
           return left(requestfailure(error_message: response.data["data"][0]));

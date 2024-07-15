@@ -1,9 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 import 'package:mastermold/core/commn/navigation.dart';
 import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
-  import 'package:mastermold/features/clients/presentation/view/addclient.dart';
+import 'package:mastermold/core/commn/showdialogerror.dart';
+import 'package:mastermold/features/actions/presentation/view/clientactions.dart';
+import 'package:mastermold/features/actions/presentation/view/widgets/actindesc.dart';
+import 'package:mastermold/features/auth/presentation/view/profile.dart';
+import 'package:mastermold/features/clients/presentation/view/addclient.dart';
 import 'package:mastermold/features/clients/presentation/view/clients.dart';
+import 'package:mastermold/features/employees/presentation/views/employees.dart';
 import 'package:mastermold/features/home/presentation/view/widgets/gridelement.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -24,12 +30,51 @@ class _homeState extends State<home> {
     {
       "name": "الموظفين",
       "image": "assets/images/service.png",
-      "page": clients()
+      "page": employees()
     },
   ];
   @override
   void initState() {
-    OneSignal.Notifications.addClickListener((event) {});
+    OneSignal.Notifications.addClickListener((event) {
+      navigateto(
+          navigationscreen: clientaction(
+              clientid: event.notification.additionalData!["client_id"],
+              clientname: event.notification.additionalData!["name_of_client"]),
+          context: context);
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0)),
+                title: Container(
+                  height: 20,
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: Appcolors.maincolor,
+                      )),
+                ),
+                contentPadding: EdgeInsets.all(10),
+                backgroundColor: Colors.white,
+                insetPadding: EdgeInsets.all(35),
+                content: actiondesc(
+                  employeename:
+                      event.notification.additionalData!["name_of_employer"],
+                  type: event.notification.additionalData!["type"],
+                  price: event.notification.additionalData!["price"].toString(),
+                  bayan: event.notification.additionalData!["description"],
+                  date: event.notification.additionalData!["date"],
+                ));
+          });
+    });
+
+    OneSignal.Notifications.addForegroundWillDisplayListener((e) {});
   }
 
   @override
@@ -51,7 +96,7 @@ class _homeState extends State<home> {
                         clipper: WaveClipper(), //set our custom wave clipper
                         child: Container(
                           color: Appcolors.maincolor,
-                          height: 160,
+                          height: 185,
                         ),
                       ),
                     ),
@@ -62,63 +107,98 @@ class _homeState extends State<home> {
                       child: Container(
                         padding: EdgeInsets.only(bottom: 50),
                         color: Appcolors.maincolor,
-                        height: 150,
+                        height: 175,
                         alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Material(
-                                  // Replace this child with your own
-                                  elevation: 8.0,
-                                  shape: CircleBorder(),
-                                  child: AvatarGlow(
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey[100],
-                                      radius: 20.0,
-                                      backgroundImage: AssetImage(
-                                       'assets/images/master.jpg',
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  cashhelper.getdata(key: "image") == null
+                                      ? Material(
+                                          // Replace this child with your own
+                                          elevation: 8.0,
+                                          shape: CircleBorder(),
+                                          child: AvatarGlow(
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.grey[100],
+                                              radius: 30.0,
+                                              backgroundImage: AssetImage(
+                                                'assets/images/master.jpg',
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Material(
+                                          // Replace this child with your own
+                                          elevation: 8.0,
+                                          shape: CircleBorder(),
+                                          child: AvatarGlow(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(35),
+                                              child: CachedNetworkImage(
+                                                height: 60,
+                                                width: 60,
+                                                fit: BoxFit.fill,
+                                                imageUrl: cashhelper.getdata(
+                                                    key: "image"),
+                                                errorWidget:
+                                                    (context, url, Widget) {
+                                                  return const Icon(
+                                                    Icons.person,
+                                                    color: Colors.red,
+                                                  );
+                                                },
+                                                placeholder: (context, url) {
+                                                  return CircularProgressIndicator();
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      cashhelper.getdata(key: "name"),
+                                      style: const TextStyle(
+                                        fontFamily: "cairo",
+                                        fontSize: 18,
+                                        color: Colors.white,
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    cashhelper.getdata(key: "name"),
-                                    style: const TextStyle(
-                                      fontFamily: "cairo",
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: Colors.white,
-                                    )),
-                                const SizedBox(
-                                  width: 5,
-                                )
-                              ],
-                            ),
-                          ],
+                                  IconButton(
+                                      onPressed: () {
+                                        navigateto(
+                                            navigationscreen: profile(),
+                                            context: context);
+                                      },
+                                      icon: Icon(
+                                        Icons.menu,
+                                        color: Colors.white,
+                                      )),
+                                  const SizedBox(
+                                    width: 5,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -137,10 +217,18 @@ class _homeState extends State<home> {
                                 text: e["name"],
                                 image: e["image"],
                                 onTap: () {
-                                  navigateto(
-                                    context: context,
-                                    navigationscreen: e["page"],
-                                  );
+                                  if (e["name"] == "الموظفين" &&
+                                      cashhelper.getdata(key: "is_manager") !=
+                                          "yes") {
+                                    showdialogerror(
+                                        error:
+                                            "ليس لديك صلاحية الدخول لهذه الصفحه",
+                                        context: context);
+                                  } else
+                                    navigateto(
+                                      context: context,
+                                      navigationscreen: e["page"],
+                                    );
                                 },
                               ))
                           .toList(),

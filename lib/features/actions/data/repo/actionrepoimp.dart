@@ -19,7 +19,7 @@ class Actionrepoimp extends Actionrepo {
           queryParameters: {"action_id": action_id});
 
       if (response.data["status"] == true && response.statusCode == 200) {
-        return right("تم حذف العميل بنجاح");
+        return right("تم الحذف بنجاح");
       } else {
         if (response.data["data"] != null) {
           return left(requestfailure(error_message: response.data["data"][0]));
@@ -72,7 +72,34 @@ class Actionrepoimp extends Actionrepo {
       );
 
       if (response.data["status"] == true && response.statusCode == 200) {
-        return right("تم تسجيل العميل بنجاح");
+        return right("تم الاضافه بنجاح");
+      } else {
+        if (response.data["data"] != null) {
+          return left(requestfailure(error_message: response.data["data"][0]));
+        } else
+          return left(requestfailure(error_message: response.data["error"]));
+      }
+    } catch (e) {
+      if (e is DioException)
+        return left(requestfailure.fromdioexception(e));
+      else
+        return left(requestfailure(error_message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<failure, String>> editaction(
+      {required int actionid,
+      required Actionmodelrequest actionmodelrequest}) async {
+    try {
+      Response response = await Postdata.postdata(
+        data: actionmodelrequest.tojson(),
+        token: cashhelper.getdata(key: "token"),
+        path: "update_action/${actionid}",
+      );
+
+      if (response.data["status"] == true && response.statusCode == 200) {
+        return right("تم التعديل بنجاح");
       } else {
         if (response.data["data"] != null) {
           return left(requestfailure(error_message: response.data["data"][0]));

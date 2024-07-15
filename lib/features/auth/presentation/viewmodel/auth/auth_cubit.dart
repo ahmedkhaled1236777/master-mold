@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:mastermold/core/errors/failure.dart';
 import 'package:mastermold/features/auth/data/model/loginmodel/loginmodel.dart';
 import 'package:mastermold/features/auth/data/repos/authrepoimp.dart';
 
@@ -33,6 +34,31 @@ class AuthCubit extends Cubit<AuthState> {
       emit(signinfailure(errorr_message: failure.error_message));
     }, (success) {
       emit(signinsuccess(loginmodel: success));
+    });
+  }
+
+  logout() async {
+    emit(logoutloading());
+    var result = await authrepoimp.logout();
+    result.fold((failure) {
+      emit(logoutfailure(errorrmessage: failure.error_message));
+    }, (success) {
+      emit(logoutsuccess(successmessage: success));
+    });
+  }
+
+  changepass(
+      {required String oldpass,
+      required String newpass,
+      required String cnewpass}) async {
+    emit(changepassloading());
+    var result = await authrepoimp.changepass(
+        oldpass: oldpass, newpass: newpass, cnewpass: cnewpass);
+
+    result.fold((failure) {
+      emit(changepassfailure(errormessage: failure.error_message));
+    }, (success) {
+      emit(changepasssuccess(successmessage: success));
     });
   }
 }

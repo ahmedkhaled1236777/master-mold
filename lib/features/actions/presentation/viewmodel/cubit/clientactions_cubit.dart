@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mastermold/features/actions/data/model/actionmodel/datum.dart';
 import 'package:mastermold/features/actions/data/model/actionmodelrequest.dart';
 import 'package:mastermold/features/actions/data/repo/actionrepoimp.dart';
+import 'package:mastermold/main.dart';
 
 part 'clientactions_state.dart';
 
@@ -11,6 +12,7 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
   ClientactionsCubit(this.actionrepoimp) : super(ClientactionsInitial());
   int page = 1;
   String type = "maintenance";
+  String editordelete = "تعديل";
 
   bool loading = false;
   List<Datum> data = [];
@@ -21,7 +23,6 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
   List<bool> checks = [];
   getactions({required int client_id}) async {
     if (firstloading == false) emit(Clientactionsloading());
-    checks.clear();
     this.page = 1;
     payment = 0;
     maintenance = 0;
@@ -35,6 +36,8 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
         loading = false;
       }
       data.clear();
+      checks.clear();
+
       firstloading = true;
       success.actions!.data!.forEach((e) {
         data.add(e);
@@ -75,9 +78,27 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
     result.fold((failure) {
       emit(deleteactionfailure(errormessage: failure.error_message));
     }, (success) {
-      data.removeWhere((e) {
-        return e.id == actionid;
-      });
+      for (int i = 0; i < data.length; i++) {
+        if (data[i].id == actionid) {
+          if (data[i].type == "maintenance" && maintenance >= data[i].price!) {
+            maintenance = maintenance - data[i].price!;
+          } else if (data[i].type == "maintenance" &&
+              maintenance < data[i].price!) {
+            maintenance = 0;
+            payment = payment + (data[i].price! - maintenance);
+          } else if (data[i].type != "maintenance" &&
+              payment > data[i].price!) {
+            payment = payment - data[i].price!;
+          } else if (data[i].type != "maintenance" &&
+              payment < data[i].price!) {
+            payment = 0;
+            maintenance = maintenance + (data[i].price! - payment);
+          }
+          data.removeAt(i);
+          break;
+        }
+      }
+
       emit(deleteactionsuccess(successmessage: success));
     });
   }
@@ -92,6 +113,11 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
     emit(changetypestate());
   }
 
+  changeedittype({required String value}) {
+    editordelete = value;
+    emit(changetypestate());
+  }
+
   addaction({required Actionmodelrequest actiomodelrequest}) async {
     emit(addactionloading());
     var result =
@@ -100,6 +126,19 @@ class ClientactionsCubit extends Cubit<ClientactionsState> {
       emit(addactionfailure(errormessage: failure.error_message));
     }, (success) {
       emit(addactionsuccess(successmessage: success));
+    });
+  }
+
+  editaction(
+      {required int actionid,
+      required Actionmodelrequest actiomodelrequest}) async {
+    emit(editactionloading());
+    var result = await actionrepoimp.editaction(
+        actionmodelrequest: actiomodelrequest, actionid: actionid);
+    result.fold((failure) {
+      emit(editactionfailure(errormessage: failure.error_message));
+    }, (success) {
+      emit(editactionsuccess(successmessage: success));
     });
   }
 }
