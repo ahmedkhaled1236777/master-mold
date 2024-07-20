@@ -78,61 +78,73 @@ class _employeesState extends State<employees> {
                           .isEmpty
                       ? nodata()
                       : ListView.separated(
-                          itemBuilder: (context, i) => customtableemployeeitem(
-                              employeename:
-                                  BlocProvider.of<EmployeeCubit>(context)
+                          itemBuilder: (context, i) => BlocProvider.of<
+                                          EmployeeCubit>(context)
                                       .employee[i]
-                                      .name!,
-                              phone: BlocProvider.of<EmployeeCubit>(context)
-                                  .employee[i]
-                                  .phone!,
-                              status: BlocProvider.of<EmployeeCubit>(context)
+                                      .id !=
+                                  46
+                              ? customtableemployeeitem(
+                                  employeename:
+                                      BlocProvider.of<EmployeeCubit>(context)
                                           .employee[i]
-                                          .isActive ==
-                                      "yes"
-                                  ? "مفعل"
-                                  : "غير مفعل",
-                              edit: IconButton(
-                                  onPressed: () {
-                                    BlocProvider.of<EmployeeCubit>(context)
-                                            .type =
+                                          .name!,
+                                  phone: BlocProvider.of<EmployeeCubit>(context)
+                                      .employee[i]
+                                      .phone!,
+                                  status:
+                                      BlocProvider.of<EmployeeCubit>(context)
+                                                  .employee[i]
+                                                  .isActive ==
+                                              "yes"
+                                          ? "مفعل"
+                                          : "غير مفعل",
+                                  edit: IconButton(
+                                      onPressed: () {
                                         BlocProvider.of<EmployeeCubit>(context)
-                                            .employee[i]
-                                            .isActive!;
-                                    showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(0)),
-                                              title: Container(
-                                                height: 20,
-                                                alignment: Alignment.topLeft,
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.close,
-                                                      color:
-                                                          Appcolors.maincolor,
-                                                    )),
-                                              ),
-                                              contentPadding:
-                                                  EdgeInsets.all(10),
-                                              backgroundColor: Colors.white,
-                                              insetPadding: EdgeInsets.all(35),
-                                              content: Editcontent(
-                                                  id: BlocProvider.of<
-                                                              EmployeeCubit>(
-                                                          context)
-                                                      .employee[i]
-                                                      .id!));
-                                        });
-                                  },
-                                  icon: Icon(editeicon))),
+                                                .type =
+                                            BlocProvider.of<EmployeeCubit>(
+                                                    context)
+                                                .employee[i]
+                                                .isActive!;
+                                        showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0)),
+                                                  title: Container(
+                                                    height: 20,
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon: Icon(
+                                                          Icons.close,
+                                                          color: Appcolors
+                                                              .maincolor,
+                                                        )),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.all(10),
+                                                  backgroundColor: Colors.white,
+                                                  insetPadding:
+                                                      EdgeInsets.all(35),
+                                                  content: Editcontent(
+                                                      id: BlocProvider.of<
+                                                                  EmployeeCubit>(
+                                                              context)
+                                                          .employee[i]
+                                                          .id!));
+                                            });
+                                      },
+                                      icon: Icon(editeicon)))
+                              : SizedBox(),
                           separatorBuilder: (context, i) => Divider(
                                 color: Colors.grey,
                               ),

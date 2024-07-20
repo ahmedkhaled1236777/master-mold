@@ -12,4 +12,5 @@ abstract class urls {
   static const employers = "employers";
   static const is_active = "is_active";
   static const change_password = "change_the_pass";
+  static const update_profile = "update_profile";
 }

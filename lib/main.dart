@@ -16,6 +16,7 @@ import 'package:mastermold/features/clients/presentation/viewmodel/client/client
 import 'package:mastermold/features/employees/data/model/repos/emoloyeesrepoimp.dart';
 import 'package:mastermold/features/employees/presentation/viewmodel/employee/employee_cubit.dart';
 import 'package:mastermold/features/home/presentation/view/home.dart';
+import 'package:mastermold/features/splash/splash.dart';
 import 'package:mastermold/firebase_options.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
 
             Locale('en'), // English
           ],
-          home: cashhelper.getdata(key: "token") == null ? Login() : home(),
+          home: splash(),
         ));
   }
 }

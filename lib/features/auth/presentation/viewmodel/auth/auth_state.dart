@@ -6,6 +6,20 @@ class AuthInitial extends AuthState {}
 
 class changepassloading extends AuthState {}
 
+class updateprofileloading extends AuthState {}
+
+class updateprofilesuccess extends AuthState {
+  final Updatemodel success;
+
+  updateprofilesuccess({required this.success});
+}
+
+class updateprofilefailure extends AuthState {
+  final String errormessage;
+
+  updateprofilefailure({required this.errormessage});
+}
+
 class changepassfailure extends AuthState {
   final String errormessage;
 

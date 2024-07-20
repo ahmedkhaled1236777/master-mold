@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
@@ -6,6 +8,7 @@ import 'package:mastermold/core/errors/handlingerror.dart';
 import 'package:mastermold/core/services/apiservice.dart';
 import 'package:mastermold/core/urls/urls.dart';
 import 'package:mastermold/features/auth/data/model/loginmodel/loginmodel.dart';
+import 'package:mastermold/features/auth/data/model/updatemodel/updatemodel.dart';
 import 'package:mastermold/features/auth/data/repos/authrepo.dart';
 
 class Authrepoimp extends Authrepo {
@@ -109,6 +112,41 @@ class Authrepoimp extends Authrepo {
           ));
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right("تم تغيير كلمة المرور بنجاح");
+      } else {
+        if (response.data["data"] != null) {
+          return left(requestfailure(error_message: response.data["data"][0]));
+        } else
+          return left(requestfailure(error_message: response.data["error"]));
+      }
+    } catch (e) {
+      if (e is DioException)
+        return left(requestfailure.fromdioexception(e));
+      else
+        return left(requestfailure(error_message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<failure, Updatemodel>> updateprofile(
+      {required String email,
+      required String phone,
+      required String name,
+      File? photo}) async {
+    try {
+      FormData data = FormData.fromMap({
+        "name": name,
+        "email": email,
+        "phone": phone,
+        if (photo != null)
+          "profile_photo_path": await MultipartFile.fromFile(photo.path,
+              filename: photo.path.split("/").last)
+      });
+      Response response = await Postdata.postdata(
+          path: urls.update_profile,
+          token: cashhelper.getdata(key: "token"),
+          data: data);
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        return right(Updatemodel.fromJson(response.data));
       } else {
         if (response.data["data"] != null) {
           return left(requestfailure(error_message: response.data["data"][0]));

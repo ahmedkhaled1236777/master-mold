@@ -10,6 +10,7 @@ import 'package:mastermold/core/commn/sharedpref/cashhelper.dart';
 import 'package:mastermold/core/commn/toast/toast.dart';
 import 'package:mastermold/features/auth/presentation/view/changepass.dart';
 import 'package:mastermold/features/auth/presentation/view/login.dart';
+import 'package:mastermold/features/auth/presentation/view/updateprofile.dart';
 import 'package:mastermold/features/auth/presentation/viewmodel/auth/auth_cubit.dart';
 
 class profile extends StatefulWidget {
@@ -45,7 +46,20 @@ class _profileState extends State<profile> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              navigateto(
+                                  navigationscreen: Updateprofile(
+                                      name: TextEditingController(
+                                          text:
+                                              cashhelper.getdata(key: "name")),
+                                      phone: TextEditingController(
+                                          text:
+                                              cashhelper.getdata(key: "phone")),
+                                      email: TextEditingController(
+                                          text: cashhelper.getdata(
+                                              key: "email"))),
+                                  context: context);
+                            },
                             icon: Icon(
                               Icons.edit,
                               color: Colors.white,
