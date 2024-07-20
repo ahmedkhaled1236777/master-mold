@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 
 class customtableclientactionitem extends StatelessWidget {
@@ -8,8 +9,8 @@ class customtableclientactionitem extends StatelessWidget {
   String? payment;
 
   Widget check;
-  TextStyle textStyle =
-      TextStyle(fontSize: 12, fontFamily: "cairo", color: Appcolors.maincolor);
+  TextStyle textStyle = TextStyle(
+      fontSize: 11.4.sp, fontFamily: "cairo", color: Appcolors.maincolor);
 
   customtableclientactionitem(
       {super.key,
@@ -30,14 +31,14 @@ class customtableclientactionitem extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Text(
-              date,
-              style: textStyle,
-              textAlign: TextAlign.center,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                date,
+                style: textStyle,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 3,
           ),
           Expanded(
               flex: 3,
@@ -46,9 +47,6 @@ class customtableclientactionitem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
               flex: 3,
               child: Text(
@@ -56,9 +54,6 @@ class customtableclientactionitem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
               flex: 3,
               child: Text(
@@ -66,9 +61,6 @@ class customtableclientactionitem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
             flex: 2,
             child: check,

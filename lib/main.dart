@@ -16,9 +16,12 @@ import 'package:mastermold/features/clients/presentation/viewmodel/client/client
 import 'package:mastermold/features/employees/data/model/repos/emoloyeesrepoimp.dart';
 import 'package:mastermold/features/employees/presentation/viewmodel/employee/employee_cubit.dart';
 import 'package:mastermold/features/home/presentation/view/home.dart';
+import 'package:mastermold/features/managers/data/model/repos/emoloyeesrepoimp.dart';
+import 'package:mastermold/features/managers/presentation/viewmodel/employee/employee_cubit.dart';
 import 'package:mastermold/features/splash/splash.dart';
 import 'package:mastermold/firebase_options.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,24 +57,36 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => EmployeeCubit(Emoloyeesrepoimp()),
           ),
-        ],
-        child: GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
+          BlocProvider(
+            create: (context) =>
+                EmployeeCubitmanager(Emoloyeesrepoimpmangaer()),
           ),
-          localizationsDelegates: const [
-            GlobalCupertinoLocalizations.delegate, // Here !
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('ar'), // Arabic
+        ],
+        child: ScreenUtilInit(
+            designSize: const Size(360, 690),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            // Use builder only if you need to use library outside ScreenUtilInit context
+            builder: (_, child) {
+              return GetMaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  colorScheme:
+                      ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  useMaterial3: true,
+                ),
+                localizationsDelegates: const [
+                  GlobalCupertinoLocalizations.delegate, // Here !
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('ar'), // Arabic
 
-            Locale('en'), // English
-          ],
-          home: splash(),
-        ));
+                  Locale('en'), // English
+                ],
+                home: splash(),
+              );
+            }));
   }
 }

@@ -11,6 +11,7 @@ import 'package:mastermold/features/clients/presentation/view/addclient.dart';
 import 'package:mastermold/features/clients/presentation/view/clients.dart';
 import 'package:mastermold/features/employees/presentation/views/employees.dart';
 import 'package:mastermold/features/home/presentation/view/widgets/gridelement.dart';
+import 'package:mastermold/features/managers/presentation/views/employees.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 
@@ -32,6 +33,12 @@ class _homeState extends State<home> {
       "image": "assets/images/service.png",
       "page": employees()
     },
+    if (cashhelper.getdata(key: "email") == "ahmedaaallam123@gmail.com")
+      {
+        "name": "المديرين",
+        "image": "assets/images/service.png",
+        "page": managers()
+      },
   ];
   @override
   void initState() {

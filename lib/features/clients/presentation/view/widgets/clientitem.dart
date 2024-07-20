@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mastermold/core/color/appcolors.dart';
 
 class customtableclientitem extends StatelessWidget {
@@ -8,8 +9,8 @@ class customtableclientitem extends StatelessWidget {
 
   Widget delet;
   Widget edit;
-  TextStyle textStyle =
-      TextStyle(fontSize: 12, fontFamily: "cairo", color: Appcolors.maincolor);
+  TextStyle textStyle = TextStyle(
+      fontSize: 11.4.sp, fontFamily: "cairo", color: Appcolors.maincolor);
 
   customtableclientitem(
       {super.key,
@@ -35,9 +36,6 @@ class customtableclientitem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
               flex: 3,
               child: Text(
@@ -45,9 +43,6 @@ class customtableclientitem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
               flex: 3,
               child: Text(
@@ -55,9 +50,6 @@ class customtableclientitem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          const SizedBox(
-            width: 3,
-          ),
           Expanded(
             flex: 2,
             child: edit,

@@ -125,6 +125,7 @@ class _clientactionState extends State<clientaction> {
               title: Text(
                 widget.clientname,
                 style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: Colors.white,
                     fontFamily: "cairo",
                     fontSize: 15,

@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                           cashhelper.setdata(
                               key: "is_manager",
                               value: state.loginmodel.user!.isManager);
-                          navigateto(
+                          navigateandfinish(
                               navigationscreen: home(), context: context);
                           showtoast(
                               message: "تم تسجيل الدخول بنجاح",
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
                     builder: (context, state) {
                       if (state is signinloading) return loading();
                       return custommaterialbutton(
-                        button_name: "انشاء حساب",
+                        button_name: "تسجيل دخول",
                         onPressed: () async {
                           if (formkey.currentState!.validate()) {
                             await BlocProvider.of<AuthCubit>(context).sigin(
