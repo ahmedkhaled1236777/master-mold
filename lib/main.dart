@@ -30,7 +30,11 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Apiservice.initdio();
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
   OneSignal.initialize("11bed588-849f-432c-9b87-8d70ea9b6d9e");
+  OneSignal.Notifications.requestPermission(true);
+
   runApp(const MyApp());
 }
 

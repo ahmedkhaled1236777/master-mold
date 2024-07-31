@@ -95,15 +95,19 @@ class _AddactionState extends State<Addaction> {
                   SizedBox(
                     height: 10,
                   ),
-                  custommytextform(
-                    keyboardType: TextInputType.number,
-                    controller: money,
-                    hintText:
-                        BlocProvider.of<ClientactionsCubit>(context).type ==
-                                "maintenence"
-                            ? "مبلغ الصيانه"
-                            : "المبلغ المدفوع",
-                    val: "برجاء ادخال المبلغ",
+                  BlocBuilder<ClientactionsCubit, ClientactionsState>(
+                    builder: (context, state) {
+                      return custommytextform(
+                        keyboardType: TextInputType.number,
+                        controller: money,
+                        hintText:
+                            BlocProvider.of<ClientactionsCubit>(context).type ==
+                                    "maintenance"
+                                ? "مبلغ الصيانه"
+                                : "المبلغ المدفوع",
+                        val: "برجاء ادخال المبلغ",
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 35,
@@ -114,7 +118,7 @@ class _AddactionState extends State<Addaction> {
                         BlocProvider.of<DateCubit>(context).cleardates();
                         BlocProvider.of<ClientactionsCubit>(context)
                             .changetype(value: "maintenance");
-                        bayan.clear;
+                        bayan.clear();
                         money.clear();
                         await BlocProvider.of<ClientactionsCubit>(context)
                             .getactions(client_id: widget.client_id);

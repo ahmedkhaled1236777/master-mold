@@ -70,7 +70,7 @@ class Addclient extends StatelessWidget {
                   BlocConsumer<ClientCubit, ClientState>(
                     listener: (context, state) {
                       if (state is addCliensuccess) {
-                        name.clear;
+                        name.clear();
                         fac.clear();
                         phone.clear();
                         showtoast(

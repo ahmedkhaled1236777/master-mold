@@ -1,5 +1,5 @@
 abstract class urls {
-  static const baseurl = "https://masool.net/master-mold/public/api/";
+  static const baseurl = "http://master-mold.masool.net/api/";
   static const register = "register";
   static const login = "login";
   static const addclient = "add_client";

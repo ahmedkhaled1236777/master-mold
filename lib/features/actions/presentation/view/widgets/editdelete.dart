@@ -82,16 +82,20 @@ class Editdelete extends StatelessWidget {
                             SizedBox(
                               height: 10,
                             ),
-                            custommytextform(
-                              keyboardType: TextInputType.number,
-                              controller: price,
-                              hintText:
-                                  BlocProvider.of<ClientactionsCubit>(context)
+                            BlocBuilder<ClientactionsCubit, ClientactionsState>(
+                              builder: (context, state) {
+                                return custommytextform(
+                                  keyboardType: TextInputType.number,
+                                  controller: price,
+                                  hintText: BlocProvider.of<ClientactionsCubit>(
+                                                  context)
                                               .type ==
-                                          "maintenence"
+                                          "maintenance"
                                       ? "مبلغ الصيانه"
                                       : "المبلغ المدفوع",
-                              val: "برجاء ادخال المبلغ",
+                                  val: "برجاء ادخال المبلغ",
+                                );
+                              },
                             ),
                             SizedBox(
                               height: 35,

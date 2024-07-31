@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
 
   bool x = true;
-
+  @override
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -100,7 +100,7 @@ class _LoginState extends State<Login> {
                             cashhelper.setdata(
                                 key: "image",
                                 value:
-                                    "https://masool.net/master-mold/public/uploads/${state.loginmodel.user!.profilePhotoPath}");
+                                    "http://master-mold.masool.net/uploads/${state.loginmodel.user!.profilePhotoPath}");
                           cashhelper.setdata(
                               key: "email",
                               value: state.loginmodel.user!.email);
@@ -124,6 +124,9 @@ class _LoginState extends State<Login> {
                         button_name: "تسجيل دخول",
                         onPressed: () async {
                           if (formkey.currentState!.validate()) {
+                            print(
+                                "////////////////////////////////////////////////////////");
+                            print(OneSignal.User.pushSubscription.id!);
                             await BlocProvider.of<AuthCubit>(context).sigin(
                                 fcm: OneSignal.User.pushSubscription.id!,
                                 password: password.text,
