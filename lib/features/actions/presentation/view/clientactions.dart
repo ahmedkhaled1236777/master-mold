@@ -291,8 +291,6 @@ class _clientactionState extends State<clientaction> {
                 children: [
                   IconButton(
                       onPressed: () async {
-                        int maintenance = 0;
-                        int payment = 0;
                         List<Datum> data = [];
                         for (int i = 0;
                             i <
@@ -306,20 +304,6 @@ class _clientactionState extends State<clientaction> {
                             data.add(
                                 BlocProvider.of<ClientactionsCubit>(context)
                                     .data[i]);
-                            if (BlocProvider.of<ClientactionsCubit>(context)
-                                    .data[i]
-                                    .type ==
-                                "maintenance") {
-                              maintenance = maintenance +
-                                  BlocProvider.of<ClientactionsCubit>(context)
-                                      .data[i]
-                                      .price!;
-                            } else {
-                              payment = payment +
-                                  BlocProvider.of<ClientactionsCubit>(context)
-                                      .data[i]
-                                      .price!;
-                            }
                           }
                         }
                         final img =
@@ -329,8 +313,24 @@ class _clientactionState extends State<clientaction> {
                             data,
                             widget.clientname,
                             imageBytes,
-                            maintenance,
-                            payment);
+                            BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance <
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment
+                                ? 0
+                                : BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance -
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment,
+                            BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance >
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment
+                                ? 0
+                                : BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment -
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance);
                         pdfservice.openfile(file);
                       },
                       icon: const Icon(
@@ -342,8 +342,6 @@ class _clientactionState extends State<clientaction> {
                   ),
                   IconButton(
                       onPressed: () async {
-                        int maintenance = 0;
-                        int payment = 0;
                         List<Datum> data = [];
                         for (int i = 0;
                             i <
@@ -357,20 +355,6 @@ class _clientactionState extends State<clientaction> {
                             data.add(
                                 BlocProvider.of<ClientactionsCubit>(context)
                                     .data[i]);
-                            if (BlocProvider.of<ClientactionsCubit>(context)
-                                    .data[i]
-                                    .type ==
-                                "maintenance") {
-                              maintenance = maintenance +
-                                  BlocProvider.of<ClientactionsCubit>(context)
-                                      .data[i]
-                                      .price!;
-                            } else {
-                              payment = payment +
-                                  BlocProvider.of<ClientactionsCubit>(context)
-                                      .data[i]
-                                      .price!;
-                            }
                           }
                         }
                         final img =
@@ -380,8 +364,24 @@ class _clientactionState extends State<clientaction> {
                             data,
                             widget.clientname,
                             imageBytes,
-                            maintenance,
-                            payment);
+                            BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance <
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment
+                                ? 0
+                                : BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance -
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment,
+                            BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance >
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment
+                                ? 0
+                                : BlocProvider.of<ClientactionsCubit>(context)
+                                        .payment -
+                                    BlocProvider.of<ClientactionsCubit>(context)
+                                        .maintenance);
                         await Share.shareXFiles([XFile(file.path)]);
                       },
                       icon: const Icon(

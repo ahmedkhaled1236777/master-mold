@@ -78,8 +78,7 @@ class _employeesState extends State<employees> {
                           .isEmpty
                       ? nodata()
                       : ListView.separated(
-                          itemBuilder: (context, i) => BlocProvider.of<
-                                          EmployeeCubit>(context)
+                          itemBuilder: (context, i) => BlocProvider.of<EmployeeCubit>(context)
                                       .employee[i]
                                       .id !=
                                   46
@@ -145,9 +144,15 @@ class _employeesState extends State<employees> {
                                       },
                                       icon: Icon(editeicon)))
                               : SizedBox(),
-                          separatorBuilder: (context, i) => Divider(
-                                color: Colors.grey,
-                              ),
+                          separatorBuilder: (context, i) =>
+                              BlocProvider.of<EmployeeCubit>(context)
+                                          .employee[i]
+                                          .id !=
+                                      46
+                                  ? Divider(
+                                      color: Colors.grey,
+                                    )
+                                  : SizedBox(),
                           itemCount: BlocProvider.of<EmployeeCubit>(context)
                               .employee
                               .length);

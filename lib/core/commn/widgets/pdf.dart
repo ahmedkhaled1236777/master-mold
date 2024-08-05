@@ -11,8 +11,8 @@ import 'package:pdf/widgets.dart';
 import '../../../features/actions/data/model/actionmodel/datum.dart';
 
 class pdfservice {
-  static Future<File> generatepdf(List<Datum> m, String name, Uint8List bytes,
-      int maintenance, int payment) async {
+  static Future<File> generatepdf(
+      List<Datum> m, String name, Uint8List bytes, int maden, int daen) async {
     final pdf = pw.Document();
     final theme = pw.ThemeData.withFont(
       base: Font.ttf(await rootBundle
@@ -98,7 +98,7 @@ class pdfservice {
                   fontSize: 15,
                   fontBold: Font.courier(),
                   color: PdfColors.purple)),
-          pw.Text(" مهندس وليد ",
+          pw.Text(name,
               style: pw.TextStyle(
                   fontSize: 15,
                   fontBold: Font.courier(),
@@ -156,10 +156,7 @@ class pdfservice {
                       border: pw.Border(
                           left: pw.BorderSide(color: PdfColors.black)))),
               pw.Expanded(
-                child: pw.Text(
-                    maintenance >= payment
-                        ? (maintenance - payment).toString()
-                        : "0",
+                child: pw.Text(maden.toString(),
                     textAlign: pw.TextAlign.center,
                     style: pw.TextStyle(color: PdfColors.blue800)),
               )
@@ -182,10 +179,7 @@ class pdfservice {
                       border: pw.Border(
                           left: pw.BorderSide(color: PdfColors.black)))),
               pw.Expanded(
-                child: pw.Text(
-                    payment >= maintenance
-                        ? (payment - maintenance).toString()
-                        : "0",
+                child: pw.Text(daen.toString(),
                     textAlign: pw.TextAlign.center,
                     style: pw.TextStyle(color: PdfColors.blue800)),
               )
