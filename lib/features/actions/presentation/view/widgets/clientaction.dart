@@ -9,8 +9,8 @@ class customtableclientactionitem extends StatelessWidget {
   String? payment;
 
   Widget check;
-  TextStyle textStyle = TextStyle(
-      fontSize: 11.4.sp, fontFamily: "cairo", color: Appcolors.maincolor);
+  TextStyle textStyle =
+      TextStyle(fontSize: 11.4.sp, color: Appcolors.maincolor);
 
   customtableclientactionitem(
       {super.key,

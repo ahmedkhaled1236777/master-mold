@@ -41,8 +41,7 @@ class _custommytextformState extends State<custommytextform> {
       children: [
         Text(
           widget.hintText,
-          style: TextStyle(
-              fontSize: 12.5, color: Appcolors.maincolor, fontFamily: "cairo"),
+          style: TextStyle(fontSize: 12.5, color: Appcolors.maincolor),
           textAlign: TextAlign.right,
         ),
         const SizedBox(
@@ -51,7 +50,7 @@ class _custommytextformState extends State<custommytextform> {
         TextFormField(
           onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
-          style: const TextStyle(fontSize: 13, fontFamily: "cairo"),
+          style: const TextStyle(fontSize: 13),
           validator: (value) {
             if (value!.isEmpty) {
               return widget.val;

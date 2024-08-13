@@ -16,9 +16,7 @@ class pdfservice {
     final pdf = pw.Document();
     final theme = pw.ThemeData.withFont(
       base: Font.ttf(await rootBundle
-          .load('assets/fonts/Cairo-VariableFont_slnt,wght.ttf')),
-      bold: Font.ttf(await rootBundle
-          .load('assets/fonts/Cairo-VariableFont_slnt,wght.ttf')),
+          .load('assets/fonts/NotoNaskhArabic-VariableFont_wght.ttf')),
     );
 
     pdf.addPage(pw.MultiPage(
@@ -93,7 +91,7 @@ class pdfservice {
                   decoration: pw.TextDecoration.underline)),
         ]),
         pw.Row(mainAxisAlignment: pw.MainAxisAlignment.center, children: [
-          pw.Text("كشف حساب السيد /",
+          pw.Text("كشف حساب السيد / ",
               style: pw.TextStyle(
                   fontSize: 15,
                   fontBold: Font.courier(),
@@ -132,6 +130,7 @@ class pdfservice {
               ];
             }).toList()),
         pw.Container(
+            padding: pw.EdgeInsets.symmetric(vertical: 5),
             width: PdfPageFormat.cm * 50,
             child: pw.Text("اجمالي الرصيد والحركه",
                 textAlign: pw.TextAlign.center,

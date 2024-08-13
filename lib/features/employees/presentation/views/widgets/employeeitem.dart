@@ -8,8 +8,8 @@ class customtableemployeeitem extends StatelessWidget {
   final String status;
 
   Widget edit;
-  TextStyle textStyle = TextStyle(
-      fontSize: 11.4.sp, fontFamily: "cairo", color: Appcolors.maincolor);
+  TextStyle textStyle =
+      TextStyle(fontSize: 11.4.sp, color: Appcolors.maincolor);
 
   customtableemployeeitem({
     super.key,

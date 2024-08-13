@@ -52,7 +52,6 @@ class _employeesState extends State<employees> {
                 "الموظفين",
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: "cairo",
                     fontSize: 15,
                     fontWeight: FontWeight.bold),
               ),

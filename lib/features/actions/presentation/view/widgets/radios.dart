@@ -34,7 +34,6 @@ class radios extends StatelessWidget {
               }),
           Text(
             firstradiotitle,
-            style: TextStyle(fontFamily: "cairo"),
           ),
           SizedBox(
             width: 10,
@@ -51,7 +50,6 @@ class radios extends StatelessWidget {
               }),
           Text(
             secondradiotitle,
-            style: TextStyle(fontFamily: "cairo"),
           ),
         ],
       ),

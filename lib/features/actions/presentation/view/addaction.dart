@@ -47,10 +47,7 @@ class _AddactionState extends State<Addaction> {
           title: const Text(
             "اضافة حركه",
             style: TextStyle(
-                color: Colors.white,
-                fontFamily: "cairo",
-                fontSize: 15,
-                fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ),
         body: SingleChildScrollView(

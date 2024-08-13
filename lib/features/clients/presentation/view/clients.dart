@@ -112,7 +112,6 @@ class _clientsState extends State<clients> {
                 "العملاء",
                 style: TextStyle(
                     color: Colors.white,
-                    fontFamily: "cairo",
                     fontSize: 15,
                     fontWeight: FontWeight.bold),
               ),
@@ -305,8 +304,6 @@ class _clientsState extends State<clients> {
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         12,
-                                                                    fontFamily:
-                                                                        "cairo",
                                                                     color: Colors
                                                                         .white),
                                                                 textAlign:

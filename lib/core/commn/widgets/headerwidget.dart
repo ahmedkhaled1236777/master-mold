@@ -4,8 +4,7 @@ class customheadertable extends StatelessWidget {
   int flex;
   String? tabletormobile;
   final String title;
-  TextStyle textStyle =
-      TextStyle(fontSize: 12, fontFamily: "cairo", color: Colors.white);
+  TextStyle textStyle = TextStyle(fontSize: 12, color: Colors.white);
   customheadertable({
     this.flex = 3,
     required this.title,

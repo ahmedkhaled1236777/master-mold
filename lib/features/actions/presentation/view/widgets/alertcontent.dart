@@ -74,8 +74,8 @@ class _AlertcontentcontentState extends State<Alertcontent> {
                                         ? "اختر التاريخ"
                                         : "${month}-${year}",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "cairo"),
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),

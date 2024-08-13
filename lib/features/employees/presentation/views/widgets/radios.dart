@@ -33,7 +33,7 @@ class employeeradios extends StatelessWidget {
             }),
         Text(
           firstradiotitle,
-          style: TextStyle(fontFamily: "cairo"),
+          style: TextStyle(),
         ),
         SizedBox(
           width: 10,

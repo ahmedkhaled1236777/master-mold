@@ -127,7 +127,6 @@ class _clientactionState extends State<clientaction> {
                 style: TextStyle(
                     overflow: TextOverflow.ellipsis,
                     color: Colors.white,
-                    fontFamily: "cairo",
                     fontSize: 15,
                     fontWeight: FontWeight.bold),
               ),
@@ -402,13 +401,11 @@ class _clientactionState extends State<clientaction> {
                         children: [
                           Text(
                             "اجمالي ما له : ${BlocProvider.of<ClientactionsCubit>(context).maintenance > BlocProvider.of<ClientactionsCubit>(context).payment ? 0 : BlocProvider.of<ClientactionsCubit>(context).payment - BlocProvider.of<ClientactionsCubit>(context).maintenance}",
-                            style: TextStyle(
-                                fontFamily: "cairo", color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                           Text(
                             "اجمالي ما عليه : ${BlocProvider.of<ClientactionsCubit>(context).maintenance < BlocProvider.of<ClientactionsCubit>(context).payment ? 0 : BlocProvider.of<ClientactionsCubit>(context).maintenance - BlocProvider.of<ClientactionsCubit>(context).payment}",
-                            style: TextStyle(
-                                fontFamily: "cairo", color: Colors.white),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),

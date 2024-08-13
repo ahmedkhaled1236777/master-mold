@@ -26,7 +26,6 @@ class FailureView extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 20,
                 color: Appcolors.maincolor,
-                fontFamily: 'Cairo',
                 fontWeight: FontWeight.bold,
               ),
             ),

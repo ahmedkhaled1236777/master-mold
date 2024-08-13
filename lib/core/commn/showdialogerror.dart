@@ -46,8 +46,7 @@ showdialogerror({required String error, required BuildContext context}) {
                         ),
                         Text(
                           error,
-                          style: const TextStyle(
-                              fontSize: 12, fontFamily: "cairo"),
+                          style: const TextStyle(fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(

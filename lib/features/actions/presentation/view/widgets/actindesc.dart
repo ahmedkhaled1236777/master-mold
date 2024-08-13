@@ -25,10 +25,7 @@ class actiondesc extends StatelessWidget {
         children: [
           Text(
             "تفاصيل الحركه",
-            style: TextStyle(
-                fontFamily: "cairo",
-                fontSize: 12.5,
-                color: Appcolors.maincolor),
+            style: TextStyle(fontSize: 12.5, color: Appcolors.maincolor),
           ),
           SizedBox(
             height: 15,
@@ -44,19 +41,13 @@ class actiondesc extends StatelessWidget {
               children: [
                 Text("التاريح",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 Text(" : ",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 Text(date,
-                    style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.maincolor))
+                    style:
+                        TextStyle(fontSize: 12.5, color: Appcolors.maincolor))
               ],
             ),
           ),
@@ -74,20 +65,14 @@ class actiondesc extends StatelessWidget {
               children: [
                 const Text("البيان",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 const Text(" : ",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 Expanded(
                     child: Text(bayan,
                         style: TextStyle(
-                            fontFamily: "cairo",
-                            fontSize: 12.5,
-                            color: Appcolors.maincolor)))
+                            fontSize: 12.5, color: Appcolors.maincolor)))
               ],
             ),
           ),
@@ -105,20 +90,14 @@ class actiondesc extends StatelessWidget {
               children: [
                 Text(type == "maintenance" ? "تكلفة الصيانه" : "المبلغ المدفوع",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 const Text(" : ",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 Expanded(
                     child: Text(price,
                         style: TextStyle(
-                            fontFamily: "cairo",
-                            fontSize: 12.5,
-                            color: Appcolors.maincolor)))
+                            fontSize: 12.5, color: Appcolors.maincolor)))
               ],
             ),
           ),
@@ -136,20 +115,14 @@ class actiondesc extends StatelessWidget {
               children: [
                 const Text("الموظف",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 const Text(" : ",
                     style: TextStyle(
-                        fontFamily: "cairo",
-                        fontSize: 12.5,
-                        color: Appcolors.primarycolor)),
+                        fontSize: 12.5, color: Appcolors.primarycolor)),
                 Expanded(
                     child: Text(employeename,
                         style: TextStyle(
-                            fontFamily: "cairo",
-                            fontSize: 12.5,
-                            color: Appcolors.maincolor)))
+                            fontSize: 12.5, color: Appcolors.maincolor)))
               ],
             ),
           ),

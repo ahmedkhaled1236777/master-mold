@@ -33,7 +33,7 @@ class Editdeleteradio extends StatelessWidget {
               }),
           Text(
             firstradiotitle,
-            style: TextStyle(fontFamily: "cairo"),
+            style: TextStyle(),
           ),
           SizedBox(
             width: 10,
@@ -50,7 +50,7 @@ class Editdeleteradio extends StatelessWidget {
               }),
           Text(
             secondradiotitle,
-            style: TextStyle(fontFamily: "cairo"),
+            style: TextStyle(),
           ),
         ],
       ),

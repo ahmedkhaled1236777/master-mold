@@ -34,7 +34,6 @@ class choosedate extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                     color: Colors.white,
-                    fontFamily: "cairo",
                     fontSize: 15,
                     fontWeight: FontWeight.w100),
               ),

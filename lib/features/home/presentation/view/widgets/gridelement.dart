@@ -42,9 +42,7 @@ class Gridelement extends StatelessWidget {
                     child: Text(
                   text,
                   style: TextStyle(
-                      fontFamily: "cairo",
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 )))
           ],
         ),

@@ -30,7 +30,6 @@ class custommaterialbutton extends StatelessWidget {
             Text(
               button_name,
               style: const TextStyle(
-                  fontFamily: "cairo",
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),

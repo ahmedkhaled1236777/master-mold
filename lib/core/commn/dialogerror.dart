@@ -42,9 +42,7 @@ awsomdialogerror({
                       Text(
                         "! تنبيــــه",
                         style: const TextStyle(
-                            fontFamily: "cairo",
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -54,7 +52,6 @@ awsomdialogerror({
                         tittle,
                         style: const TextStyle(
                           fontSize: 12,
-                          fontFamily: "cairo",
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -80,9 +77,7 @@ awsomdialogerror({
                                   child: const Text(
                                     "الغاء",
                                     style: TextStyle(
-                                        fontFamily: "cairo",
-                                        fontSize: 12,
-                                        color: Colors.white),
+                                        fontSize: 12, color: Colors.white),
                                     textAlign: TextAlign.center,
                                   )),
                             ),

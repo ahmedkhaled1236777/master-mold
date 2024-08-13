@@ -9,8 +9,8 @@ class customtableclientitem extends StatelessWidget {
 
   Widget delet;
   Widget edit;
-  TextStyle textStyle = TextStyle(
-      fontSize: 11.4.sp, fontFamily: "cairo", color: Appcolors.maincolor);
+  TextStyle textStyle =
+      TextStyle(fontSize: 11.4.sp, color: Appcolors.maincolor);
 
   customtableclientitem(
       {super.key,

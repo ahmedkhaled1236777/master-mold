@@ -38,9 +38,9 @@ showdialogerror({required String error, required BuildContext context}) {
                         Text(
                           "! تنبيــــه",
                           style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "cairo"),
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
@@ -49,7 +49,8 @@ showdialogerror({required String error, required BuildContext context}) {
                         Text(
                           error,
                           style: const TextStyle(
-                              fontSize: 12, fontFamily: "cairo"),
+                            fontSize: 12,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(

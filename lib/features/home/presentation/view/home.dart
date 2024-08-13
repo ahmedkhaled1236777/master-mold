@@ -178,7 +178,6 @@ class _homeState extends State<home> {
                                     child: Text(
                                       cashhelper.getdata(key: "name"),
                                       style: const TextStyle(
-                                        fontFamily: "cairo",
                                         fontSize: 18,
                                         color: Colors.white,
                                       ),
