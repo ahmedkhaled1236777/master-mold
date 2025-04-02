@@ -35,7 +35,13 @@ class _LoginState extends State<Login> {
         backgroundColor: Appcolors.maincolor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.sizeOf(context).width * 0.3
+                    : MediaQuery.sizeOf(context).width > 650
+                        ? MediaQuery.sizeOf(context).width * 0.2
+                        : 20,
+                vertical: 20),
             child: Form(
               key: formkey,
               child: Column(
@@ -82,12 +88,14 @@ class _LoginState extends State<Login> {
                     listener: (context, state) {
                       if (state is signinfailure) {
                         showtoast(
+                            context: context,
                             message: state.errorr_message,
                             toaststate: Toaststate.error);
                       }
                       if (state is signinsuccess) {
                         if (state.loginmodel.user!.isActive != "yes") {
                           showtoast(
+                              context: context,
                               message: "البريد غير مفعل",
                               toaststate: Toaststate.error);
                         } else {
@@ -113,6 +121,7 @@ class _LoginState extends State<Login> {
                           navigateandfinish(
                               navigationscreen: home(), context: context);
                           showtoast(
+                              context: context,
                               message: "تم تسجيل الدخول بنجاح",
                               toaststate: Toaststate.succes);
                         }
@@ -124,11 +133,9 @@ class _LoginState extends State<Login> {
                         button_name: "تسجيل دخول",
                         onPressed: () async {
                           if (formkey.currentState!.validate()) {
-                            print(
-                                "////////////////////////////////////////////////////////");
-                            print(OneSignal.User.pushSubscription.id!);
                             await BlocProvider.of<AuthCubit>(context).sigin(
-                                fcm: OneSignal.User.pushSubscription.id!,
+                                fcm:
+                                    "aa", // OneSignal.User.pushSubscription.id!,
                                 password: password.text,
                                 email: email.text);
                           }

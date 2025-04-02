@@ -36,7 +36,13 @@ class _SignupState extends State<Signup> {
         backgroundColor: Appcolors.maincolor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.sizeOf(context).width * 0.3
+                    : MediaQuery.sizeOf(context).width > 650
+                        ? MediaQuery.sizeOf(context).width * 0.2
+                        : 20,
+                vertical: 20),
             child: Form(
               key: formkey,
               child: Column(
@@ -98,6 +104,7 @@ class _SignupState extends State<Signup> {
                     listener: (context, state) {
                       if (state is signupfailure) {
                         showtoast(
+                            context: context,
                             message: state.errorr_message,
                             toaststate: Toaststate.error);
                       }
@@ -109,6 +116,7 @@ class _SignupState extends State<Signup> {
                         navigateandfinish(
                             navigationscreen: Login(), context: context);
                         showtoast(
+                            context: context,
                             message: state.successmessage,
                             toaststate: Toaststate.succes);
                       }

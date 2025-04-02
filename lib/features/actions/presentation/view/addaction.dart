@@ -52,7 +52,13 @@ class _AddactionState extends State<Addaction> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.sizeOf(context).width > 950
+                  ? MediaQuery.sizeOf(context).width * 0.3
+                  : MediaQuery.sizeOf(context).width > 650
+                      ? MediaQuery.sizeOf(context).width * 0.2
+                      : 20,
+            ),
             child: Form(
               key: formkey,
               child: Column(
@@ -120,11 +126,13 @@ class _AddactionState extends State<Addaction> {
                         await BlocProvider.of<ClientactionsCubit>(context)
                             .getactions(client_id: widget.client_id);
                         showtoast(
+                            context: context,
                             message: state.successmessage,
                             toaststate: Toaststate.succes);
                       }
                       if (state is addactionfailure)
                         showtoast(
+                            context: context,
                             message: state.errormessage,
                             toaststate: Toaststate.error);
                     },

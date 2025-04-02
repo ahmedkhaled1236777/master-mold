@@ -31,7 +31,12 @@ class customtableemployeeitem extends StatelessWidget {
             flex: 3,
             child: Text(
               employeename,
-              style: textStyle,
+              style: MediaQuery.sizeOf(context).width < 600
+                  ? textStyle
+                  : TextStyle(
+                      fontSize: 15,
+                      color: Appcolors.maincolor,
+                    ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -39,14 +44,18 @@ class customtableemployeeitem extends StatelessWidget {
               flex: 3,
               child: Text(
                 phone,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 3,
               child: Text(
                 status,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(

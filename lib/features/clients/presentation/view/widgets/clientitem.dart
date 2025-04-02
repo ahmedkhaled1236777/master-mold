@@ -32,7 +32,9 @@ class customtableclientitem extends StatelessWidget {
             flex: 3,
             child: Text(
               clientname,
-              style: textStyle,
+              style: MediaQuery.sizeOf(context).width < 600
+                  ? textStyle
+                  : TextStyle(fontSize: 15, color: Appcolors.maincolor),
               textAlign: TextAlign.center,
             ),
           ),
@@ -40,14 +42,18 @@ class customtableclientitem extends StatelessWidget {
               flex: 3,
               child: Text(
                 phone,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 3,
               child: Text(
                 fac,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(

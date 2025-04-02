@@ -42,7 +42,7 @@ class _homeState extends State<home> {
   ];
   @override
   void initState() {
-    OneSignal.Notifications.addClickListener((event) {
+    /*  OneSignal.Notifications.addClickListener((event) {
       navigateto(
           navigationscreen: clientaction(
               clientid: event.notification.additionalData!["client_id"],
@@ -81,7 +81,7 @@ class _homeState extends State<home> {
           });
     });
 
-    OneSignal.Notifications.addForegroundWillDisplayListener((e) {});
+    OneSignal.Notifications.addForegroundWillDisplayListener((e) {});*/
   }
 
   @override
@@ -215,7 +215,11 @@ class _homeState extends State<home> {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: GridView.count(
                       childAspectRatio: 1 / .8,
-                      crossAxisCount: 2,
+                      crossAxisCount: MediaQuery.sizeOf(context).width > 950
+                          ? 6
+                          : MediaQuery.sizeOf(context).width > 650
+                              ? 4
+                              : 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
                       children: homegrid

@@ -66,6 +66,7 @@ class editdialog extends StatelessWidget {
                       fac.clear();
                       phone.clear();
                       showtoast(
+                          context: context,
                           message: state.success_message,
                           toaststate: Toaststate.succes);
                       await BlocProvider.of<ClientCubit>(context)

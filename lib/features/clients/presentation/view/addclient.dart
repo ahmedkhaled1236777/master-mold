@@ -31,7 +31,13 @@ class Addclient extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.sizeOf(context).width > 950
+                  ? MediaQuery.sizeOf(context).width * 0.25
+                  : MediaQuery.sizeOf(context).width > 650
+                      ? MediaQuery.sizeOf(context).width * 0.2
+                      : 20,
+            ),
             child: Form(
               key: formkey,
               child: Column(
@@ -71,11 +77,13 @@ class Addclient extends StatelessWidget {
                         fac.clear();
                         phone.clear();
                         showtoast(
+                            context: context,
                             message: state.successmessage,
                             toaststate: Toaststate.succes);
                       }
                       if (state is addClientfailure)
                         showtoast(
+                            context: context,
                             message: state.errorr_message,
                             toaststate: Toaststate.error);
                     },

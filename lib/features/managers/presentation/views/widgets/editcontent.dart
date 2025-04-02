@@ -40,6 +40,7 @@ class Editcontentmanager extends StatelessWidget {
                   await BlocProvider.of<EmployeeCubitmanager>(context)
                       .getemployeess();
                   showtoast(
+                      context: context,
                       message: state.successmessage,
                       toaststate: Toaststate.succes);
                   Navigator.pop(context);

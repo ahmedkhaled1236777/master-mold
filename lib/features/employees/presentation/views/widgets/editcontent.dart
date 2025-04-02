@@ -39,6 +39,7 @@ class Editcontent extends StatelessWidget {
                 if (state is editemployeesuccess) {
                   await BlocProvider.of<EmployeeCubit>(context).getemployeess();
                   showtoast(
+                      context: context,
                       message: state.successmessage,
                       toaststate: Toaststate.succes);
                   Navigator.pop(context);

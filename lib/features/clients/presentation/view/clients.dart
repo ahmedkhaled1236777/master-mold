@@ -145,6 +145,11 @@ class _clientsState extends State<clients> {
                                   onTap: () {
                                     navigateto(
                                         navigationscreen: clientaction(
+                                            companyname:
+                                                BlocProvider.of<ClientCubit>(
+                                                        context)
+                                                    .data[i]
+                                                    .industry!,
                                             clientid:
                                                 BlocProvider.of<ClientCubit>(
                                                         context)
@@ -251,6 +256,7 @@ class _clientsState extends State<clients> {
                                                               context);
 
                                                           showtoast(
+                                                              context: context,
                                                               message: state
                                                                   .success_message,
                                                               toaststate:
@@ -263,6 +269,7 @@ class _clientsState extends State<clients> {
                                                               context);
 
                                                           showtoast(
+                                                              context: context,
                                                               message: state
                                                                   .error_message,
                                                               toaststate:

@@ -25,14 +25,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cashhelper.initcashhelper();
-  await Firebase.initializeApp(
+  /* await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
+  );*/
   await Apiservice.initdio();
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+//  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
-  OneSignal.initialize("11bed588-849f-432c-9b87-8d70ea9b6d9e");
-  OneSignal.Notifications.requestPermission(true);
+//  OneSignal.initialize("11bed588-849f-432c-9b87-8d70ea9b6d9e");
+  // OneSignal.Notifications.requestPermission(true);
 
   runApp(const MyApp());
 }

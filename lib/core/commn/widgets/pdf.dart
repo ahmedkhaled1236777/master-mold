@@ -11,8 +11,8 @@ import 'package:pdf/widgets.dart';
 import '../../../features/actions/data/model/actionmodel/datum.dart';
 
 class pdfservice {
-  static Future<File> generatepdf(
-      List<Datum> m, String name, Uint8List bytes, int maden, int daen) async {
+  static Future<File> generatepdf(List<Datum> m, String name, Uint8List bytes,
+      int maden, int daen, String companyname) async {
     final pdf = pw.Document();
     final theme = pw.ThemeData.withFont(
       base: Font.ttf(await rootBundle
@@ -91,7 +91,17 @@ class pdfservice {
                   decoration: pw.TextDecoration.underline)),
         ]),
         pw.Row(mainAxisAlignment: pw.MainAxisAlignment.center, children: [
-          pw.Text("كشف حساب السيد / ",
+          pw.Text(" كشف حساب ",
+              style: pw.TextStyle(
+                  fontSize: 15,
+                  fontBold: Font.courier(),
+                  color: PdfColors.purple)),
+          pw.Text(companyname,
+              style: pw.TextStyle(
+                  fontSize: 15,
+                  fontBold: Font.courier(),
+                  color: PdfColors.blue800)),
+          pw.Text(" عناية ",
               style: pw.TextStyle(
                   fontSize: 15,
                   fontBold: Font.courier(),
@@ -100,7 +110,7 @@ class pdfservice {
               style: pw.TextStyle(
                   fontSize: 15,
                   fontBold: Font.courier(),
-                  color: PdfColors.red)),
+                  color: PdfColors.blue800)),
         ]),
         pw.SizedBox(height: 10),
         pw.Table.fromTextArray(
@@ -121,7 +131,7 @@ class pdfservice {
               "البيان",
               "التاريخ",
             ],
-            data: m.map((item) {
+            data: m.reversed.map((item) {
               return [
                 item.type == "maintenance" ? item.price : "",
                 item.type == "payment" ? item.price : "",
@@ -197,7 +207,8 @@ class pdfservice {
 
   static Future<File> savepdf(String filename, pw.Document pdf) async {
     final bytes = await pdf.save();
-    var dir = await getExternalStorageDirectory();
+    var dir = await await getExternalStorageDirectory();
+    // var dir = await getExternalStorageDirectory();
     final file = File('${dir!.path}/$filename.pdf');
     await file.writeAsBytes(bytes);
     return file;

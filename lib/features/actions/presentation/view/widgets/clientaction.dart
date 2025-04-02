@@ -26,7 +26,7 @@ class customtableclientactionitem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints:
-          BoxConstraints(minHeight: MediaQuery.of(context).size.height / 19),
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height / 18),
       child: Row(
         children: [
           Expanded(
@@ -35,7 +35,9 @@ class customtableclientactionitem extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Text(
                 date,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -44,21 +46,27 @@ class customtableclientactionitem extends StatelessWidget {
               flex: 3,
               child: Text(
                 bayan,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 3,
               child: Text(
                 maintenance == null ? "" : maintenance!,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(
               flex: 3,
               child: Text(
                 payment == null ? "" : payment!,
-                style: textStyle,
+                style: MediaQuery.sizeOf(context).width < 600
+                    ? textStyle
+                    : TextStyle(fontSize: 15, color: Appcolors.maincolor),
                 textAlign: TextAlign.center,
               )),
           Expanded(

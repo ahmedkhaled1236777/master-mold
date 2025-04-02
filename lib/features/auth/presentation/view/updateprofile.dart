@@ -50,10 +50,20 @@ class _UpdateprofileState extends State<Updateprofile> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Appcolors.maincolor,
+          leading: BackButton(color: Colors.white),
+        ),
         backgroundColor: Appcolors.maincolor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.sizeOf(context).width * 0.3
+                    : MediaQuery.sizeOf(context).width > 650
+                        ? MediaQuery.sizeOf(context).width * 0.2
+                        : 20,
+                vertical: 20),
             child: Form(
               key: formkey,
               child: Column(
@@ -143,6 +153,7 @@ class _UpdateprofileState extends State<Updateprofile> {
                     listener: (context, state) {
                       if (state is updateprofilefailure) {
                         showtoast(
+                            context: context,
                             message: state.errormessage,
                             toaststate: Toaststate.error);
                       }
@@ -162,6 +173,7 @@ class _UpdateprofileState extends State<Updateprofile> {
                             navigationscreen: home(), context: context);
 
                         showtoast(
+                            context: context,
                             message: "تم تعديل البيانات بنجاح",
                             toaststate: Toaststate.succes);
                       }

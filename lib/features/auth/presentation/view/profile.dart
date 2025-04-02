@@ -28,6 +28,10 @@ class _profileState extends State<profile> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Appcolors.maincolor,
+          leading: BackButton(color: Colors.white),
+        ),
         body: Stack(
           children: [
             Column(
@@ -38,7 +42,7 @@ class _profileState extends State<profile> {
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30))),
-                  height: h * 0.35,
+                  height: h * 0.25,
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +72,7 @@ class _profileState extends State<profile> {
                       Padding(
                         padding: EdgeInsets.only(
                             top:
-                                (MediaQuery.of(context).size.height * 0.1) / 6),
+                                (MediaQuery.of(context).size.height * 0.2) / 8),
                         child: Center(
                           child: const Text(
                             "الملف الشخصي",
@@ -93,7 +97,13 @@ class _profileState extends State<profile> {
                 Expanded(
                     child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).width > 950
+                            ? MediaQuery.sizeOf(context).width * 0.3
+                            : MediaQuery.sizeOf(context).width > 650
+                                ? MediaQuery.sizeOf(context).width * 0.2
+                                : 15,
+                        vertical: 15),
                     child: Column(
                       children: [
                         Container(
@@ -238,6 +248,7 @@ class _profileState extends State<profile> {
                                 listener: (context, state) {
                                   if (state is logoutfailure) {
                                     showtoast(
+                                        context: context,
                                         message: state.errorrmessage,
                                         toaststate: Toaststate.error);
                                   }
@@ -247,6 +258,7 @@ class _profileState extends State<profile> {
                                         navigationscreen: Login(),
                                         context: context);
                                     showtoast(
+                                        context: context,
                                         message: state.successmessage,
                                         toaststate: Toaststate.succes);
                                   }
@@ -279,7 +291,7 @@ class _profileState extends State<profile> {
               ],
             ),
             Positioned(
-                top: h * 0.35 - 50,
+                top: h * 0.25 - 50,
                 left: w * 0.5 - 50,
                 child: Stack(
                   alignment: Alignment.bottomLeft,

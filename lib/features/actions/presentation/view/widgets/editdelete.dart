@@ -115,11 +115,13 @@ class Editdelete extends StatelessWidget {
                                           context)
                                       .getactions(client_id: clientid);
                                   showtoast(
+                                      context: context,
                                       message: state.successmessage,
                                       toaststate: Toaststate.succes);
                                 }
                                 if (state is editactionfailure)
                                   showtoast(
+                                      context: context,
                                       message: state.errormessage,
                                       toaststate: Toaststate.error);
                               },
@@ -196,6 +198,7 @@ class Editdelete extends StatelessWidget {
                                       Navigator.pop(context);
 
                                       showtoast(
+                                          context: context,
                                           message: state.successmessage,
                                           toaststate: Toaststate.succes);
                                     }
@@ -203,6 +206,7 @@ class Editdelete extends StatelessWidget {
                                       Navigator.pop(context);
 
                                       showtoast(
+                                          context: context,
                                           message: state.errormessage,
                                           toaststate: Toaststate.error);
                                     }

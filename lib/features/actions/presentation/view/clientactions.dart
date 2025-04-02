@@ -25,8 +25,13 @@ class clientaction extends StatefulWidget {
   ScrollController scrollController = ScrollController();
   final int clientid;
   final String clientname;
+  final String companyname;
 
-  clientaction({super.key, required this.clientid, required this.clientname});
+  clientaction(
+      {super.key,
+      required this.clientid,
+      required this.clientname,
+      required this.companyname});
   @override
   State<clientaction> createState() => _clientactionState();
 }
@@ -329,7 +334,8 @@ class _clientactionState extends State<clientaction> {
                                 : BlocProvider.of<ClientactionsCubit>(context)
                                         .payment -
                                     BlocProvider.of<ClientactionsCubit>(context)
-                                        .maintenance);
+                                        .maintenance,
+                            widget.companyname);
                         pdfservice.openfile(file);
                       },
                       icon: const Icon(
@@ -380,8 +386,13 @@ class _clientactionState extends State<clientaction> {
                                 : BlocProvider.of<ClientactionsCubit>(context)
                                         .payment -
                                     BlocProvider.of<ClientactionsCubit>(context)
-                                        .maintenance);
-                        await Share.shareXFiles([XFile(file.path)]);
+                                        .maintenance,
+                            widget.companyname);
+                        await Share.shareXFiles([
+                          XFile(
+                            file.path,
+                          )
+                        ]);
                       },
                       icon: const Icon(
                         Icons.share,
